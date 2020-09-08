@@ -1,2 +1,2 @@
 # OOP
-Laboratory-Project-Other
+Laboratory-Project-Others
