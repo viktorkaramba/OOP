@@ -35,12 +35,11 @@ private slots:
 
     void on_Add_To_Archive_clicked();
 
-    void on_pushButton_2_clicked();
 
 
     void on_Print_Button_clicked();
 
-
+    void slot();
 
 
     void on_pushButton_3_clicked();
