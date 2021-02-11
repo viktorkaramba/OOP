@@ -11,25 +11,26 @@
             Oy.push_back(b);
         }
     }
+    Figure::Figure(int nn, std::vector<int>OX, std::vector<int>OY) {
+       n = nn;
+       Ox = OX;
+       Oy = OY;
+    }
     void Figure::Out() {
-
         std::cout << std::endl;
         for (int i = 0; i < n; i++) {
             std::cout << "( " << Ox[i] << ";" << Oy[i] << " )" << std::endl;
         }
     }
-    double Figure::Perimetr() {
-
-        double p = 0;
+    int Figure::Perimetr() {
+        int p = 0;
         for (int i = 0; i < n; i++) {
             int j = (i + 1) % n;
             p += sqrt((Ox[i] - Ox[j]) * (Ox[i] - Ox[j]) + (Oy[i] - Oy[j]) * (Oy[i] - Oy[j]));
         }
         return p;
-
     }
     double Figure::Square() {
-
         double square = 0;
         double x1 = Ox[0];
         double y1 = Oy[0];

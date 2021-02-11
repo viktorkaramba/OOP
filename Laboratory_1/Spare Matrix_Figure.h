@@ -6,7 +6,7 @@
 typedef struct Node {
     int nj;
     double square;
-    double perimetr;
+    int perimetr;
     int convex;
     Node* next;
 }Listn, * Listp;
@@ -18,6 +18,7 @@ struct Matrix {
     Listp* m;
     std::vector<int> countofstr;
     Matrix(int nt, int t);
+    Matrix(int nt, int t, std::vector<Figure> F, std::vector<int> N, std::vector<int> M);
     void Show_Matrix_Square();
     void Show_Matrix_Perimetr();
     void Show_Matrix_Convex();
