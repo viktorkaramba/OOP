@@ -10,7 +10,7 @@ Matrix::Matrix(int nt, int t) {
     for (int i = 0; i < nn; i++) {
         s[i] = 0;
         for (int j = 0; j < mm; j++) {
-            std::cout << "Input count of point of figure" << std::endl; 
+            std::cout << "Input count of point of figure" << std::endl;
             std::cin >> n;
             if (n >= 3) {
                 m[i] = new Node;//Якщо к-сть сторін в фігурі менше 3 то ми не зберігаєм її в матриці інакше а поле даних заносим значення
@@ -25,7 +25,7 @@ Matrix::Matrix(int nt, int t) {
                     std::cin >> b;
                     Y.push_back(b);
                 }
-                Figure A(n,X,Y);
+                Figure A(n, X, Y);
                 m[i]->square = A.Square();
                 m[i]->perimetr = A.Perimetr();
                 m[i]->convex = A.Isconvex();
@@ -60,7 +60,7 @@ Matrix::Matrix(int nt, int t, std::vector<Figure> F1, std::vector<int> R, std::v
                         break;
                     }
                 }
-               
+
 
             }
             for (int q = 0; q < S.size(); q++) {
@@ -70,9 +70,9 @@ Matrix::Matrix(int nt, int t, std::vector<Figure> F1, std::vector<int> R, std::v
                         break;
                     }
                 }
-               
+
             }
-           
+
 
 
             if (y == w) {

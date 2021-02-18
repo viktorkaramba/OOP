@@ -1,22 +1,20 @@
 #pragma once
-
 #include <iostream>
 #include <vector>
 #include <iomanip>
 #include <cmath>
-    class Figure {
-    private:
-        std::vector<int>Ox;//Вектор для збереження координатів x
-        std::vector<int>Oy;//Вектор для збереження координатів y
-        int n;
-    public:
-        Figure(int nn);//Конструктор задання фігури
-        Figure(int nn, std::vector<int>OX, std::vector<int>OY);
-        void Out();//Метод виводу фігури
-        int Perimetr();//Метод виводу периметра
-        double Square();//Метод виводу площу
-        int Isconvex();//Метод перевірки на опуклість
-        bool Checking_Figure();//Метод перевірки фігури 
-        void Menu();//Меню для вибору методів
-    };
-   
+class Figure {
+private:
+    std::vector<int>Ox;//Вектор для збереження координатів x
+    std::vector<int>Oy;//Вектор для збереження координатів y
+    int n;
+public:
+    Figure(int nn);//Конструктор задання фігури
+    Figure(int nn, std::vector<int>OX, std::vector<int>OY);
+    void Out();//Метод виводу фігури
+    int Perimetr();//Метод виводу периметра
+    double Square();//Метод виводу площу
+    int Isconvex();//Метод перевірки на опуклість
+    bool Checking_Figure();//Метод перевірки фігури 
+    void Menu();//Меню для вибору методів
+};
