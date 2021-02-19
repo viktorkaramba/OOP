@@ -1,41 +1,41 @@
 #include "Figure.h"
-Figure::Figure(int nn) {
-    n = nn;
-    int a;
-    int b;
-    for (int i = 0; i < n; i++) {
+Figure::Figure(int Count_of_Points) {
+    count_of_points = Count_of_Points;
+    int Oxx;
+    int Oyy;
+    for (int i = 0; i < count_of_points; i++) {
         std::cout << "Input coordinate (x ; y)" << std::endl;
-        std::cin >> a;
-        Ox.push_back(a);
-        std::cin >> b;
-        Oy.push_back(b);
+        std::cin >> Oxx;
+        Ox.push_back(Oxx);
+        std::cin >> Oyy;
+        Oy.push_back(Oyy);
     }
 }
-Figure::Figure(int nn, std::vector<int>OX, std::vector<int>OY) {
-    n = nn;
+Figure::Figure(int Count_of_Points, std::vector<int>OX, std::vector<int>OY) {
+    count_of_points = Count_of_Points;
     Ox = OX;
     Oy = OY;
 }
 void Figure::Out() {
     std::cout << std::endl;
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < count_of_points; i++) {
         std::cout << "( " << Ox[i] << ";" << Oy[i] << " )" << std::endl;
     }
 }
 int Figure::Perimetr() {
-    int p = 0;
-    for (int i = 0; i < n; i++) {
-        int j = (i + 1) % n;
-        p += sqrt((Ox[i] - Ox[j]) * (Ox[i] - Ox[j]) + (Oy[i] - Oy[j]) * (Oy[i] - Oy[j]));
+    int perimetr = 0;
+    for (int i = 0; i < count_of_points; i++) {
+        int j = (i + 1) % count_of_points;
+        perimetr += sqrt((Ox[i] - Ox[j]) * (Ox[i] - Ox[j]) + (Oy[i] - Oy[j]) * (Oy[i] - Oy[j]));
     }
-    return p;
+    return perimetr;
 }
 double Figure::Square() {
     double square = 0;
     double x1 = Ox[0];
     double y1 = Oy[0];
     double x2 = 0, y2 = 0;
-    for (int i = 1; i < n; i++) {
+    for (int i = 1; i < count_of_points; i++) {
         x2 = Ox[i];
         y2 = Oy[i];
         square = square + (x1 + x2) * (y2 - y1);
@@ -46,14 +46,14 @@ double Figure::Square() {
     return abs(square) / 2;
 }
 int Figure::Isconvex() {
-    if (n < 3)
+    if (count_of_points < 3)
         return 0;
     int i, j, k;
     int flag = 0;
     float z;
-    for (i = 0; i < n; i++) {
-        j = (i + 1) % n;
-        k = (i + 2) % n;
+    for (i = 0; i < count_of_points; i++) {
+        j = (i + 1) % count_of_points;
+        k = (i + 2) % count_of_points;
         z = (Ox[j] - Ox[i]) * (Oy[k] - Oy[j]);
         z -= (Oy[j] - Oy[i]) * (Ox[k] - Ox[j]);
         if (z < 0)
@@ -69,8 +69,8 @@ int Figure::Isconvex() {
         return 0;
 }
 bool Figure::Checking_Figure() {
-    if (n <= 4) {
-        switch (n) {
+    if (count_of_points <= 4) {
+        switch (count_of_points) {
         case 3:
             std::cout << "1. Isosceles\t  2. Rectangular\t  3. Equilateral\t" << std::endl;
             int a;
@@ -264,16 +264,16 @@ bool Figure::Checking_Figure() {
             }
         }
     }
-    else if (n > 4) {
-        std::vector<int> leStr(n);
+    else if (count_of_points > 4) {
+        std::vector<int> leStr(count_of_points);
         std::vector<int> leStr1;
         if (Isconvex() == 1) {
-            for (int i = 0; i < n; i++) {
-                for (int j = i + 1; j < n; j++) {
-                    if (i != n - 1) {
+            for (int i = 0; i < count_of_points; i++) {
+                for (int j = i + 1; j < count_of_points; j++) {
+                    if (i != count_of_points - 1) {
                         leStr.push_back(((Ox[i] - Ox[j]) * (Ox[i] - Ox[j]) + (Oy[i] - Oy[j]) * (Oy[i] - Oy[j])));
                     }
-                    else if (i == n - 1) {
+                    else if (i == count_of_points - 1) {
                         Ox[j] = Ox[0];
                         Oy[j] = Ox[0];
                         leStr.push_back(((Ox[j] - Ox[i]) * (Ox[j] - Ox[i]) + (Oy[j] - Oy[i]) * (Oy[j] - Oy[i])));
@@ -287,7 +287,7 @@ bool Figure::Checking_Figure() {
                     counter++;
                 }
             }
-            if (counter == n) {
+            if (counter == count_of_points) {
                 std::cout << "This is regular polygon" << std::endl;
                 return true;
             }
@@ -303,10 +303,10 @@ bool Figure::Checking_Figure() {
     }
 }
 void Figure::Menu() {
-    int a;
+    int number;
     std::cout << "1. Perimetr\t 2. Square\t 3. Checking Figure\t 4. Cheking_Convexity\t 5. Out" << std::endl;
-    std::cin >> a;
-    switch (a) {
+    std::cin >> number;
+    switch (number) {
     case 1:
         std::cout << Perimetr();
         std::cout << std::endl;

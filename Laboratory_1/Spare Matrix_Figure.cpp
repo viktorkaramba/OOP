@@ -1,60 +1,60 @@
 #include "Spare Matrix_Figure.h"
 
-Matrix::Matrix(int nt, int t) {
-    nn = nt;
-    mm = t;
+Matrix::Matrix(int C_of_Rows, int C_of_Columns) {
+    c_of_rows = C_of_Rows;
+    c_of_columns = C_of_Columns;
     int n;
     Listp p = NULL, o = NULL, r = NULL;
-    m = new Listp[nn];
-    s = new int[nn];
-    for (int i = 0; i < nn; i++) {
-        s[i] = 0;
-        for (int j = 0; j < mm; j++) {
+    matrix = new Listp[c_of_rows];
+    count_of_elements = new int[c_of_rows];
+    for (int i = 0; i < c_of_rows; i++) {
+        count_of_elements[i] = 0;
+        for (int j = 0; j < c_of_columns; j++) {
             std::cout << "Input count of point of figure" << std::endl;
             std::cin >> n;
             if (n >= 3) {
-                m[i] = new Node;//Якщо к-сть сторін в фігурі менше 3 то ми не зберігаєм її в матриці інакше а поле даних заносим значення
-                int a;
-                int b;
+                matrix[i] = new Node;//Якщо к-сть сторін в фігурі менше 3 то ми не зберігаєм її в матриці інакше а поле даних заносим значення
+                int Oxx;
+                int Oyy;
                 std::vector<int>X;
                 std::vector<int>Y;
                 for (int i = 0; i < n; i++) {
                     std::cout << "Input coordinate (x ; y)" << std::endl;
-                    std::cin >> a;
-                    X.push_back(a);
-                    std::cin >> b;
-                    Y.push_back(b);
+                    std::cin >> Oxx;
+                    X.push_back(Oxx);
+                    std::cin >> Oyy;
+                    Y.push_back(Oyy);
                 }
                 Figure A(n, X, Y);
-                m[i]->square = A.Square();
-                m[i]->perimetr = A.Perimetr();
-                m[i]->convex = A.Isconvex();
-                m[i]->nj = j;
-                m[i]->next = p;
-                p = m[i];
-                s[i] = s[i] + 1;//Масив що містить к-сть елементів в кожному рядку
+                matrix[i]->square = A.Square();
+                matrix[i]->perimetr = A.Perimetr();
+                matrix[i]->convex = A.Isconvex();
+                matrix[i]->index_of_column = j;
+                matrix[i]->next = p;
+                p = matrix[i];
+                count_of_elements[i] = count_of_elements[i] + 1;//Масив що містить к-сть елементів в кожному рядку
             }
         }
     }
     std::cout << std::endl;
 }
-Matrix::Matrix(int nt, int t, std::vector<Figure> F1, std::vector<int> R, std::vector<int> S) {
-    nn = nt;
-    mm = t;
+Matrix::Matrix(int C_of_Rows, int C_of_Columns, std::vector<Figure> Figures, std::vector<int> Rows, std::vector<int> Columns) {
+    c_of_rows = C_of_Rows;
+    c_of_columns = C_of_Columns;
     int n;
     int k = 0;
     Listp p = NULL, o = NULL, r = NULL;
-    m = new Listp[nn];
-    s = new int[nn];
+    matrix = new Listp[c_of_rows];
+    count_of_elements = new int[c_of_rows];
     int y = 0; int w = 0;
     int h = -1; int l = -1;
-    for (int i = 0; i < nn; i++) {
-        s[i] = 0;
-        int rad = i;
-        for (int j = 0; j < mm; j++) {
-            int st = j;
-            for (int r = 0; r < R.size(); r++) {
-                if (rad == R[r]) {
+    for (int i = 0; i < c_of_rows; i++) {
+        count_of_elements[i] = 0;
+        int row = i;
+        for (int j = 0; j < c_of_columns; j++) {
+            int column = j;
+            for (int r = 0; r < Rows.size(); r++) {
+                if (row == Rows[r]) {
                     if (r != h) {
                         y = r;
                         break;
@@ -63,8 +63,8 @@ Matrix::Matrix(int nt, int t, std::vector<Figure> F1, std::vector<int> R, std::v
 
 
             }
-            for (int q = 0; q < S.size(); q++) {
-                if (st == S[q]) {
+            for (int q = 0; q < Columns.size(); q++) {
+                if (column == Columns[q]) {
                     if (q != l) {
                         w = q;
                         break;
@@ -72,18 +72,15 @@ Matrix::Matrix(int nt, int t, std::vector<Figure> F1, std::vector<int> R, std::v
                 }
 
             }
-
-
-
             if (y == w) {
-                m[i] = new Node;
-                m[i]->square = F1[k].Square();
-                m[i]->perimetr = F1[k].Perimetr();
-                m[i]->convex = F1[k].Isconvex();
-                m[i]->nj = j;
-                m[i]->next = p;
-                p = m[i];
-                s[i] = s[i] + 1;//Масив що містить к-сть елементів в кожному рядку
+                matrix[i] = new Node;
+                matrix[i]->square = Figures[k].Square();
+                matrix[i]->perimetr = Figures[k].Perimetr();
+                matrix[i]->convex = Figures[k].Isconvex();
+                matrix[i]->index_of_column = j;
+                matrix[i]->next = p;
+                p = matrix[i];
+                count_of_elements[i] = count_of_elements[i] + 1;//Масив що містить к-сть елементів в кожному рядку
                 k++;
                 h++;
                 l++;
@@ -96,9 +93,9 @@ void Matrix::Show_Matrix_Square() {
     std::cout << "Matrix of Squares" << std::endl;
     Listp p = NULL;
     int n = 0;
-    for (int i = 0; i < nn; i++) {
-        p = m[i];
-        for (int j = 0; j < s[i]; j++) {
+    for (int i = 0; i < c_of_rows; i++) {
+        p = matrix[i];
+        for (int j = 0; j < count_of_elements[i]; j++) {
             std::cout << p->square << " ";
             p = p->next;
         }
@@ -110,9 +107,9 @@ void Matrix::Show_Matrix_Perimetr() {
     std::cout << "Matrix of Perimeters" << std::endl;
     Listp p = NULL;
     int n = 0;
-    for (int i = 0; i < nn; i++) {
-        p = m[i];
-        for (int j = 0; j < s[i]; j++) {
+    for (int i = 0; i < c_of_rows; i++) {
+        p = matrix[i];
+        for (int j = 0; j < count_of_elements[i]; j++) {
             std::cout << p->perimetr << " ";
             p = p->next;
         }
@@ -124,9 +121,9 @@ void Matrix::Show_Matrix_Convex() {
     std::cout << "Matrix of Convex" << std::endl;
     Listp p = NULL;
     int n = 0;
-    for (int i = 0; i < nn; i++) {
-        p = m[i];
-        for (int j = 0; j < s[i]; j++) {
+    for (int i = 0; i < c_of_rows; i++) {
+        p = matrix[i];
+        for (int j = 0; j < count_of_elements[i]; j++) {
             std::cout << p->convex << " ";
             p = p->next;
         }
@@ -134,13 +131,13 @@ void Matrix::Show_Matrix_Convex() {
     }
     std::cout << std::endl;
 }
-std::vector<double> Matrix::Index_Search(int rd, int st) {// Йдемо по не нульовим елементам і шукаємо значеня за заданим індексом
+std::vector<double> Matrix::Index_Search(int I_of_Row, int I_of_Column) {// Йдемо по не нульовим елементам і шукаємо значеня за заданим індексом
     Listp p = NULL;
     std::vector<double> value;
-    for (int i = 0; i < nn; i++) {
-        p = m[i];
-        for (int j = 0; j < s[i]; j++) {
-            if (i == rd && p->nj == st) {
+    for (int i = 0; i < c_of_rows; i++) {
+        p = matrix[i];
+        for (int j = 0; j < count_of_elements[i]; j++) {
+            if (i == I_of_Row && p->index_of_column == I_of_Column) {
                 value.push_back(p->square);
                 value.push_back(p->perimetr);
                 value.push_back(p->convex);
@@ -160,12 +157,12 @@ std::vector<double> Matrix::Index_Search(int rd, int st) {// Йдемо по не нульови
 std::vector<double> Matrix::Value_Search(int value) {// Йдемо по не нульовим елементам і шукаємо іднекс за заданим значенням
     Listp p = NULL;
     std::vector<double> Index;
-    for (int i = 0; i < nn; i++) {
-        p = m[i];
-        for (int j = 0; j < s[i]; j++) {
+    for (int i = 0; i < c_of_rows; i++) {
+        p = matrix[i];
+        for (int j = 0; j < count_of_elements[i]; j++) {
             if (p->square == value) {
                 Index.push_back(i);
-                Index.push_back(p->nj);
+                Index.push_back(p->index_of_column);
                 return Index;
             }
             else {
@@ -181,9 +178,9 @@ std::vector<double> Matrix::Value_Search(int value) {// Йдемо по не нульовим еле
 int Matrix::Value_By_Condition() {//Шукаємо першу не опуклу фігуру 
     Listp p = NULL;
     int value = 0;
-    for (int i = 0; i < nn; i++) {
-        p = m[i];
-        for (int j = 0; j < s[i]; j++) {
+    for (int i = 0; i < c_of_rows; i++) {
+        p = matrix[i];
+        for (int j = 0; j < count_of_elements[i]; j++) {
             if (p->convex == -1) {
                 value = p->square;
                 return value;

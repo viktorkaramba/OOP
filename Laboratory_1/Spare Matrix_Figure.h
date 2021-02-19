@@ -5,7 +5,7 @@
 #include "Figure.h"
 
 typedef struct Node {
-    int nj;
+    int index_of_column;
     double square;
     int perimetr;
     int convex;
@@ -13,17 +13,17 @@ typedef struct Node {
 }Listn, * Listp;
 
 struct Matrix {
-    int nn;
-    int mm;
-    int* s;
-    Listp* m;
+    int c_of_rows;
+    int c_of_columns;
+    int* count_of_elements;
+    Listp* matrix;
     std::vector<int> countofstr;
-    Matrix(int nt, int t);
-    Matrix(int nt, int t, std::vector<Figure> F, std::vector<int> N, std::vector<int> M);
+    Matrix(int C_of_Rows, int C_of_Columns);
+    Matrix(int C_of_Rows, int C_of_Columns, std::vector<Figure> F, std::vector<int> N, std::vector<int> M);
     void Show_Matrix_Square();
     void Show_Matrix_Perimetr();
     void Show_Matrix_Convex();
-    std::vector<double> Index_Search(int rd, int st);
+    std::vector<double> Index_Search(int I_of_Row, int I_of_Column);
     std::vector<double> Value_Search(int value);
     int Value_By_Condition();
 };
