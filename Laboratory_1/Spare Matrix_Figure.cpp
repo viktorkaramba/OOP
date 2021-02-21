@@ -14,10 +14,10 @@ Matrix::Matrix(int C_of_Rows, int C_of_Columns) {
             std::cin >> n;
             if (n >= 3) {
                 matrix[i] = new Node;//якщо к-сть стор≥н в ф≥гур≥ менше 3 то ми не збер≥гаЇм њњ в матриц≥ ≥накше а поле даних заносим значенн€
-                int Oxx;
-                int Oyy;
-                std::vector<int>X;
-                std::vector<int>Y;
+                double Oxx;
+                double Oyy;
+                std::vector<double>X;
+                std::vector<double>Y;
                 for (int i = 0; i < n; i++) {
                     std::cout << "Input coordinate (x ; y)" << std::endl;
                     std::cin >> Oxx;
@@ -25,7 +25,7 @@ Matrix::Matrix(int C_of_Rows, int C_of_Columns) {
                     std::cin >> Oyy;
                     Y.push_back(Oyy);
                 }
-                Figure A(n, X, Y);
+                Figure  A(n, X, Y);
                 matrix[i]->square = A.Square();
                 matrix[i]->perimetr = A.Perimetr();
                 matrix[i]->convex = A.Isconvex();
@@ -41,36 +41,46 @@ Matrix::Matrix(int C_of_Rows, int C_of_Columns) {
 Matrix::Matrix(int C_of_Rows, int C_of_Columns, std::vector<Figure> Figures, std::vector<int> Rows, std::vector<int> Columns) {
     c_of_rows = C_of_Rows;
     c_of_columns = C_of_Columns;
-    int n;
     int k = 0;
     Listp p = NULL, o = NULL, r = NULL;
     matrix = new Listp[c_of_rows];
     count_of_elements = new int[c_of_rows];
-    int y = 0; int w = 0;
-    int h = -1; int l = -1;
+    int y = 0; 
+    int w = 0;
+    int h = 0; 
+    int l = 0;
     for (int i = 0; i < c_of_rows; i++) {
-        count_of_elements[i] = 0;
         int row = i;
+        count_of_elements[i] = 0;
         for (int j = 0; j < c_of_columns; j++) {
             int column = j;
             for (int r = 0; r < Rows.size(); r++) {
-                if (row == Rows[r]) {
-                    if (r != h) {
+                if (row == Rows[r] ) {
+                    if (r < h ) {
+                        continue;
+                    }
+                    else if (r == h) {
                         y = r;
                         break;
                     }
                 }
-
-
+                else {
+                    y = 0;
+                }
             }
             for (int q = 0; q < Columns.size(); q++) {
                 if (column == Columns[q]) {
-                    if (q != l) {
+                    if (q < l ) {
+                        continue;
+                    }
+                    else if (q == l) {
                         w = q;
                         break;
                     }
                 }
-
+                else {
+                    w = 1;
+                }
             }
             if (y == w) {
                 matrix[i] = new Node;
@@ -131,9 +141,9 @@ void Matrix::Show_Matrix_Convex() {
     }
     std::cout << std::endl;
 }
-std::vector<double> Matrix::Index_Search(int I_of_Row, int I_of_Column) {// …демо по не нульовим елементам ≥ шукаЇмо значен€ за заданим ≥ндексом
+std::vector<int> Matrix::Index_Search(int I_of_Row, int I_of_Column) {// …демо по не нульовим елементам ≥ шукаЇмо значен€ за заданим ≥ндексом
     Listp p = NULL;
-    std::vector<double> value;
+    std::vector<int> value;
     for (int i = 0; i < c_of_rows; i++) {
         p = matrix[i];
         for (int j = 0; j < count_of_elements[i]; j++) {
@@ -153,14 +163,13 @@ std::vector<double> Matrix::Index_Search(int I_of_Row, int I_of_Column) {// …дем
     }
     std::cout << std::endl;
 }
-
-std::vector<double> Matrix::Value_Search(int value) {// …демо по не нульовим елементам ≥ шукаЇмо ≥днекс за заданим значенн€м
+std::vector<int> Matrix::Value_Search(double value) {// …демо по не нульовим елементам ≥ шукаЇмо ≥днекс за заданим значенн€м
     Listp p = NULL;
-    std::vector<double> Index;
+    std::vector<int> Index;
     for (int i = 0; i < c_of_rows; i++) {
         p = matrix[i];
         for (int j = 0; j < count_of_elements[i]; j++) {
-            if (p->square == value) {
+            if ((int)p->square == value) {
                 Index.push_back(i);
                 Index.push_back(p->index_of_column);
                 return Index;

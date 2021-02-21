@@ -1,8 +1,9 @@
 #include "Figure.h"
-Figure::Figure(int Count_of_Points) {
+
+Figure ::Figure(int Count_of_Points) {
     count_of_points = Count_of_Points;
-    int Oxx;
-    int Oyy;
+    double Oxx;
+    double Oyy;
     for (int i = 0; i < count_of_points; i++) {
         std::cout << "Input coordinate (x ; y)" << std::endl;
         std::cin >> Oxx;
@@ -11,30 +12,35 @@ Figure::Figure(int Count_of_Points) {
         Oy.push_back(Oyy);
     }
 }
-Figure::Figure(int Count_of_Points, std::vector<int>OX, std::vector<int>OY) {
+
+Figure::Figure(int Count_of_Points, std::vector<double>OX, std::vector<double>OY) {
     count_of_points = Count_of_Points;
     Ox = OX;
     Oy = OY;
 }
+
 void Figure::Out() {
     std::cout << std::endl;
     for (int i = 0; i < count_of_points; i++) {
         std::cout << "( " << Ox[i] << ";" << Oy[i] << " )" << std::endl;
     }
 }
-int Figure::Perimetr() {
-    int perimetr = 0;
+
+double Figure::Perimetr() {
+    double perimetr = 0;
     for (int i = 0; i < count_of_points; i++) {
         int j = (i + 1) % count_of_points;
         perimetr += sqrt((Ox[i] - Ox[j]) * (Ox[i] - Ox[j]) + (Oy[i] - Oy[j]) * (Oy[i] - Oy[j]));
     }
     return perimetr;
 }
+
 double Figure::Square() {
     double square = 0;
     double x1 = Ox[0];
     double y1 = Oy[0];
-    double x2 = 0, y2 = 0;
+    double x2 = 0;
+    double y2= 0;
     for (int i = 1; i < count_of_points; i++) {
         x2 = Ox[i];
         y2 = Oy[i];
@@ -45,6 +51,7 @@ double Figure::Square() {
     square = square + (Ox[0] + x2) * (Oy[0] - y2);
     return abs(square) / 2;
 }
+
 int Figure::Isconvex() {
     if (count_of_points < 3)
         return 0;
@@ -68,6 +75,7 @@ int Figure::Isconvex() {
     else
         return 0;
 }
+
 bool Figure::Checking_Figure() {
     if (count_of_points <= 4) {
         switch (count_of_points) {
@@ -302,6 +310,7 @@ bool Figure::Checking_Figure() {
         }
     }
 }
+
 void Figure::Menu() {
     int number;
     std::cout << "1. Perimetr\t 2. Square\t 3. Checking Figure\t 4. Cheking_Convexity\t 5. Out" << std::endl;
