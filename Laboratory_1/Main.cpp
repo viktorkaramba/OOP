@@ -34,3 +34,4 @@ TEST_CASE("Test 4") {
 	CHECK(M1.Value_Search(4)  == a);
 	CHECK(M1.Index_Search(0, 1) == b);
 }
+

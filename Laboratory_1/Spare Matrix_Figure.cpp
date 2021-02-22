@@ -9,11 +9,11 @@ Matrix::Matrix(int C_of_Rows, int C_of_Columns) {
     count_of_elements = new int[c_of_rows];
     for (int i = 0; i < c_of_rows; i++) {
         count_of_elements[i] = 0;
+        p = NULL;
         for (int j = 0; j < c_of_columns; j++) {
             std::cout << "Input count of point of figure" << std::endl;
             std::cin >> n;
-            if (n >= 3) {
-                matrix[i] = new Node;//Якщо к-сть сторін в фігурі менше 3 то ми не зберігаєм її в матриці інакше а поле даних заносим значення
+            if (n >= 3) {//Якщо к-сть сторін в фігурі менше 3 то ми не зберігаєм її в матриці інакше а поле даних заносим значення
                 double Oxx;
                 double Oyy;
                 std::vector<double>X;
@@ -26,6 +26,7 @@ Matrix::Matrix(int C_of_Rows, int C_of_Columns) {
                     Y.push_back(Oyy);
                 }
                 Figure  A(n, X, Y);
+                matrix[i] = new Node;
                 matrix[i]->square = A.Square();
                 matrix[i]->perimetr = A.Perimetr();
                 matrix[i]->convex = A.Isconvex();
@@ -45,13 +46,11 @@ Matrix::Matrix(int C_of_Rows, int C_of_Columns, std::vector<Figure> Figures, std
     Listp p = NULL, o = NULL, r = NULL;
     matrix = new Listp[c_of_rows];
     count_of_elements = new int[c_of_rows];
-    int y = 0; 
-    int w = 0;
-    int h = 0; 
-    int l = 0;
+    int y = 0; int w = 0;int h = 0; int l = 0;
     for (int i = 0; i < c_of_rows; i++) {
         int row = i;
         count_of_elements[i] = 0;
+        p = NULL;
         for (int j = 0; j < c_of_columns; j++) {
             int column = j;
             for (int r = 0; r < Rows.size(); r++) {
@@ -66,6 +65,7 @@ Matrix::Matrix(int C_of_Rows, int C_of_Columns, std::vector<Figure> Figures, std
                 }
                 else {
                     y = 0;
+                    continue;
                 }
             }
             for (int q = 0; q < Columns.size(); q++) {
@@ -80,6 +80,7 @@ Matrix::Matrix(int C_of_Rows, int C_of_Columns, std::vector<Figure> Figures, std
                 }
                 else {
                     w = 1;
+                    continue;
                 }
             }
             if (y == w) {
@@ -94,7 +95,9 @@ Matrix::Matrix(int C_of_Rows, int C_of_Columns, std::vector<Figure> Figures, std
                 k++;
                 h++;
                 l++;
+                
             }
+           
         }
     }
     std::cout << std::endl;
@@ -105,7 +108,7 @@ void Matrix::Show_Matrix_Square() {
     int n = 0;
     for (int i = 0; i < c_of_rows; i++) {
         p = matrix[i];
-        for (int j = 0; j < count_of_elements[i]; j++) {
+        while (p) {
             std::cout << p->square << " ";
             p = p->next;
         }
@@ -119,7 +122,7 @@ void Matrix::Show_Matrix_Perimetr() {
     int n = 0;
     for (int i = 0; i < c_of_rows; i++) {
         p = matrix[i];
-        for (int j = 0; j < count_of_elements[i]; j++) {
+        while(p) {
             std::cout << p->perimetr << " ";
             p = p->next;
         }
@@ -133,7 +136,7 @@ void Matrix::Show_Matrix_Convex() {
     int n = 0;
     for (int i = 0; i < c_of_rows; i++) {
         p = matrix[i];
-        for (int j = 0; j < count_of_elements[i]; j++) {
+        while (p) {
             std::cout << p->convex << " ";
             p = p->next;
         }
