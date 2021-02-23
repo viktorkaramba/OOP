@@ -26,6 +26,7 @@ struct Matrix {
     std::vector<int> Index_Search(int I_of_Row, int I_of_Column);
     std::vector<int> Value_Search(double value);
     int Value_By_Condition();
-    void SumMatrix(Listp M1[], Listp M2[], int C_of_Rows, int C_of_Columns);
+    void SumMatrix( Listp M1[],  Listp M2[], int C_of_Rows, int C_of_Columns);
+    void MultiplyVector(Listp M1[], std::vector<int> vector, int C_of_Rows, int C_of_Columns);
 };
 

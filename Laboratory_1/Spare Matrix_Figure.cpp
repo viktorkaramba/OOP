@@ -1,4 +1,5 @@
 #include "Spare Matrix_Figure.h"
+
 Matrix::Matrix()
 {
     c_of_rows = 0;
@@ -172,7 +173,7 @@ std::vector<int> Matrix::Index_Search(int I_of_Row, int I_of_Column) {// …демо п
     std::vector<int> value;
     for (int i = 0; i < c_of_rows; i++) {
         p = matrix[i];
-        for (int j = 0; j < count_of_elements[i]; j++) {
+       while(p) {
             if (i == I_of_Row && p->index_of_column == I_of_Column) {
                 value.push_back(p->square);
                 value.push_back(p->perimetr);
@@ -194,7 +195,7 @@ std::vector<int> Matrix::Value_Search(double value) {// …демо по не нульовим еле
     std::vector<int> Index;
     for (int i = 0; i < c_of_rows; i++) {
         p = matrix[i];
-        for (int j = 0; j < count_of_elements[i]; j++) {
+        while(p) {
             if ((int)p->square == value) {
                 Index.push_back(i);
                 Index.push_back(p->index_of_column);
@@ -215,7 +216,7 @@ int Matrix::Value_By_Condition() {//ЎукаЇмо першу не опуклу ф≥гуру
     int value = 0;
     for (int i = 0; i < c_of_rows; i++) {
         p = matrix[i];
-        for (int j = 0; j < count_of_elements[i]; j++) {
+        while(p) {
             if (p->convex == -1) {
                 value = p->square;
                 return value;
@@ -230,7 +231,7 @@ int Matrix::Value_By_Condition() {//ЎукаЇмо першу не опуклу ф≥гуру
     }
     std::cout << std::endl;
 }
-void Matrix::SumMatrix(Listp M1[], Listp M2[], int C_of_Rows, int C_of_Columns)
+void Matrix::SumMatrix( Listp M1[],  Listp M2[], int C_of_Rows, int C_of_Columns)
 {
     c_of_rows = C_of_Rows;
     c_of_columns = C_of_Columns;
@@ -241,7 +242,7 @@ void Matrix::SumMatrix(Listp M1[], Listp M2[], int C_of_Rows, int C_of_Columns)
     for (int i = 0; i < c_of_rows; i++) //переб≥р р€дк≥в
     {
         count_of_elements[i] = 0;
-        p = NULL; pc = NULL; pa = NULL; pb = NULL; p2 = NULL; p3 = NULL;
+        p = NULL; pc = NULL; pa = NULL; pb = NULL; p2 = NULL; p3 = NULL; pp = NULL;
         p = M1[i];
         while (p) {
             pc = p->next;
@@ -259,6 +260,8 @@ void Matrix::SumMatrix(Listp M1[], Listp M2[], int C_of_Rows, int C_of_Columns)
         }
         pa = p2;
         pb = p3;
+        M1[i] = p2;
+        M2[i] = p3;
         p1 = NULL;
         while (pa && pb) { //обидва р€дки не зак≥нчились
             if (pa->index_of_column == pb->index_of_column) {
@@ -296,7 +299,6 @@ void Matrix::SumMatrix(Listp M1[], Listp M2[], int C_of_Rows, int C_of_Columns)
                 count_of_elements[i] = count_of_elements[i] + 1;
             }
         }
-        //while
         if (pb)
             pa = pb;
         //виб≥р неперегл€нутого до к≥нц€ р€дка
@@ -311,11 +313,103 @@ void Matrix::SumMatrix(Listp M1[], Listp M2[], int C_of_Rows, int C_of_Columns)
             p1 = matrix[i];
             pa = pa->next;
             count_of_elements[i] = count_of_elements[i] + 1;
-        }//while
-     //   //дооформленн€ списку
-         /*if (pc == matrix[i]) matrix[i] = NULL;
-         else p->next = NULL;
-         delete pc;*/
-         ////for
+        }
     }
+    std::cout << std::endl;
+}
+void Matrix::MultiplyVector(Listp M1[], std::vector<int> vector, int C_of_Rows, int C_of_Columns)
+{
+    c_of_rows = C_of_Rows;
+    c_of_columns = C_of_Columns;
+    Listp p = NULL, p1 = NULL, pc = NULL, pp = NULL;
+    Listp pa = NULL; Listp pb = NULL; Listp p2 = NULL; Listp p3 = NULL;
+    matrix = new Listp[c_of_rows];
+    count_of_elements = new int[c_of_rows];
+    int N = 0;
+    for (int i = 0; i < c_of_rows; i++) //переб≥р р€дк≥в
+    {
+        count_of_elements[i] = 0;
+        p1 = NULL;
+        matrix[i] = new Node;
+        matrix[i]->next = p1;
+        p1 = matrix[i];
+        count_of_elements[i] = count_of_elements[i] + 1;
+        p = NULL; pc = NULL; pa = NULL; pb = NULL; p2 = NULL;
+        p = M1[i];
+        while (p) {
+            pc = p->next;
+            p->next = p2;
+            p2 = p;
+            p = pc;
+        }
+        pa = p2;
+        M1[i] = p2;
+        N = 0;
+        while (pa) {
+            for (int f = 0; f < vector.size(); f++) {
+                if (pa == NULL) {
+                    break;
+                }
+                else {
+                    if (pa->index_of_column == f) {
+                        if (N == 0) {
+                            matrix[i]->index_of_column = pa->index_of_column;
+                            matrix[i]->perimetr = pa->perimetr * vector[f];
+                            matrix[i]->square = pa->square * vector[f];
+                            matrix[i]->convex = pa->convex;
+                            pa = pa->next;
+                            N++;
+                            continue;
+
+                        }
+                        else {
+                            matrix[i]->index_of_column = pa->index_of_column;
+                            matrix[i]->perimetr += pa->perimetr * vector[f];
+                            matrix[i]->square += pa->square * vector[f];
+                            matrix[i]->convex = pa->convex;
+                            pa = pa->next;
+                            continue;
+                        }
+                    }
+                    else if (pa->index_of_column > f) {
+                        if (N == 0) {
+                            matrix[i]->index_of_column = f;
+                            matrix[i]->perimetr = vector[f];
+                            matrix[i]->square = vector[f];
+                            matrix[i]->convex;
+                            N++;
+                            continue;
+
+                        }
+                        else {
+                            matrix[i]->index_of_column = f;
+                            matrix[i]->perimetr += vector[f];
+                            matrix[i]->square += vector[f];
+                            matrix[i]->convex;
+                            continue;
+                        }
+                    }
+                    else {
+                        if (N == 0) {
+                            matrix[i]->index_of_column = pa->index_of_column;
+                            matrix[i]->perimetr = pa->perimetr;
+                            matrix[i]->square = pa->square;
+                            matrix[i]->convex = pa->convex;
+                            N++;
+                            continue;
+
+                        }
+                        else {
+                            matrix[i]->index_of_column = pa->index_of_column;
+                            matrix[i]->perimetr += pa->perimetr;
+                            matrix[i]->square += pa->square;
+                            matrix[i]->convex = pa->convex;
+                            continue;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    std::cout << std::endl;
 }
