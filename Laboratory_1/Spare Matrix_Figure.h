@@ -17,6 +17,7 @@ struct Matrix {
     int c_of_columns;
     int* count_of_elements;
     Listp* matrix;
+    Matrix();
     Matrix(int C_of_Rows, int C_of_Columns);
     Matrix(int C_of_Rows, int C_of_Columns, std::vector<Figure> Figures, std::vector<int> Rows, std::vector<int> Columns);
     void Show_Matrix_Square();
@@ -25,5 +26,6 @@ struct Matrix {
     std::vector<int> Index_Search(int I_of_Row, int I_of_Column);
     std::vector<int> Value_Search(double value);
     int Value_By_Condition();
+    void SumMatrix(Listp M1[], Listp M2[], int C_of_Rows, int C_of_Columns);
 };
 

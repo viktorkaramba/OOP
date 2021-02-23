@@ -1,5 +1,28 @@
 #include "Spare Matrix_Figure.h"
-
+Matrix::Matrix()
+{
+    c_of_rows = 0;
+    c_of_columns = 0;
+    Listp p = NULL;
+    matrix = new Listp[c_of_rows];
+    count_of_elements = new int[c_of_rows];
+    for (int i = 0; i < c_of_rows; i++) {
+        count_of_elements[i] = 0;
+        p = NULL;
+        for (int j = 0; j < c_of_columns; j++) {
+                matrix[i] = new Node;
+                matrix[i]->square = 0;
+                matrix[i]->perimetr = 0;
+                matrix[i]->convex = 0;
+                matrix[i]->index_of_column = j;
+                matrix[i]->next = p;
+                p = matrix[i];
+                count_of_elements[i] = count_of_elements[i] + 1;//Масив що містить к-сть елементів в кожному рядку
+            
+        }
+    }
+    std::cout << std::endl;
+}
 Matrix::Matrix(int C_of_Rows, int C_of_Columns) {
     c_of_rows = C_of_Rows;
     c_of_columns = C_of_Columns;
@@ -64,7 +87,7 @@ Matrix::Matrix(int C_of_Rows, int C_of_Columns, std::vector<Figure> Figures, std
                     }
                 }
                 else {
-                    y = 0;
+                    y = -2;
                     continue;
                 }
             }
@@ -79,7 +102,7 @@ Matrix::Matrix(int C_of_Rows, int C_of_Columns, std::vector<Figure> Figures, std
                     }
                 }
                 else {
-                    w = 1;
+                    w = -1;
                     continue;
                 }
             }
@@ -206,4 +229,93 @@ int Matrix::Value_By_Condition() {//Шукаємо першу не опуклу фігуру
         return 0;
     }
     std::cout << std::endl;
+}
+void Matrix::SumMatrix(Listp M1[], Listp M2[], int C_of_Rows, int C_of_Columns)
+{
+    c_of_rows = C_of_Rows;
+    c_of_columns = C_of_Columns;
+    Listp p = NULL, p1 = NULL, pc = NULL, pp = NULL;
+    Listp pa = NULL;Listp pb = NULL;Listp p2 = NULL;Listp p3 = NULL;
+    matrix = new Listp[c_of_rows];
+    count_of_elements = new int[c_of_rows];
+    for (int i = 0; i < c_of_rows; i++) //перебір рядків
+    {
+        count_of_elements[i] = 0;
+        p = NULL; pc = NULL; pa = NULL; pb = NULL; p2 = NULL; p3 = NULL;
+        p = M1[i];
+        while (p) {
+            pc = p->next;
+            p->next = p2;
+            p2 = p;
+            p = pc;
+        }
+        pc = NULL;
+        pp = M2[i];
+        while (pp) {
+            pc = pp->next;
+            pp->next = p3;
+            p3 = pp;
+            pp = pc;
+        }
+        pa = p2;
+        pb = p3;
+        p1 = NULL;
+        while (pa && pb) { //обидва рядки не закінчились
+            if (pa->index_of_column == pb->index_of_column) {
+                matrix[i] = new Node;
+                matrix[i]->index_of_column = pa->index_of_column;
+                matrix[i]->perimetr = pa->perimetr + pb->perimetr;
+                matrix[i]->square = pa->square + pb->square;
+                matrix[i]->convex = pa->convex;
+                matrix[i]->next = p1;
+                p1 = matrix[i];
+                pa = pa->next;
+                pb = pb->next;
+                count_of_elements[i] = count_of_elements[i] + 1;
+            }
+            else if (pa->index_of_column < pb->index_of_column) {
+                matrix[i] = new Node;
+                matrix[i]->index_of_column = pa->index_of_column;
+                matrix[i]->perimetr = pa->perimetr;
+                matrix[i]->square = pa->square;
+                matrix[i]->convex = pa->convex;
+                matrix[i]->next = p1;
+                p1 = matrix[i];
+                pa = pa->next;
+                count_of_elements[i] = count_of_elements[i] + 1;
+            }
+            else {
+                matrix[i] = new Node;
+                matrix[i]->index_of_column = pb->index_of_column;
+                matrix[i]->perimetr = pb->perimetr;
+                matrix[i]->square = pb->square;
+                matrix[i]->convex = pb->convex;
+                matrix[i]->next = p1;
+                p1 = matrix[i];
+                pb = pb->next;
+                count_of_elements[i] = count_of_elements[i] + 1;
+            }
+        }
+        //while
+        if (pb)
+            pa = pb;
+        //вибір непереглянутого до кінця рядка
+        while (pa) {
+            //копіювання рядка, що залишився
+            matrix[i] = new Node;
+            matrix[i]->index_of_column = pa->index_of_column;
+            matrix[i]->perimetr = pa->perimetr;
+            matrix[i]->square = pa->square;
+            matrix[i]->convex = pa->convex;
+            matrix[i]->next = p1;
+            p1 = matrix[i];
+            pa = pa->next;
+            count_of_elements[i] = count_of_elements[i] + 1;
+        }//while
+     //   //дооформлення списку
+         /*if (pc == matrix[i]) matrix[i] = NULL;
+         else p->next = NULL;
+         delete pc;*/
+         ////for
+    }
 }
