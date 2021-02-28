@@ -41,8 +41,9 @@ TEST_CASE("Test 5(new) Check SumMatrix ") {
 	Matrix M1(2, 3, { A,C,B }, { 0,1,1 }, { 0, 1, 2 });
 	Matrix M2(2, 3, { A,B,C }, { 0,1,1 }, { 0, 1, 2 });
 	Matrix M3;
-	M3.SumMatrix(M1.matrix, M2.matrix, 2, 3);
+	M3.SumMatrix(M1, M2, 2, 3);
 	CHECK(M3.matrix[0]->square == 10);
+	CHECK(M3.matrix[0]->index_of_column == 0);
 }
 TEST_CASE("Test 6(new) Check SumMatrix ") {
 	Figure A(3, { 1, 3, 5 }, { 1, 5, 2 });
@@ -51,7 +52,7 @@ TEST_CASE("Test 6(new) Check SumMatrix ") {
 	Matrix M1(2, 3, { A,C,B }, { 0,1,1 }, { 0, 0, 1 });
 	Matrix M2(2, 3, { A,B,C }, { 0,1,1 }, { 0, 0, 1 });
 	Matrix M3;
-	M3.SumMatrix(M1.matrix, M2.matrix, 2, 3);
+	M3.SumMatrix(M1, M2, 2, 3);
 	CHECK(M3.matrix[0]->square == 14);
 }
 TEST_CASE("Test 7(new) Check MultiplyVector") {
@@ -60,15 +61,17 @@ TEST_CASE("Test 7(new) Check MultiplyVector") {
 	Figure C(5, { 1, -3, 3,-2,-1 }, { 2, -2, 4,0, 3 });
 	Matrix M1(2, 3, { A,C,B }, { 0,1,1 }, { 0, 1, 2 });
 	Matrix M3;
-	M3.MultiplyVector(M1.matrix, { 1,2,3 }, 2, 3);
+	M3.MultiplyVector(M1, { 1,2,3 }, 2, 3);
 	CHECK(M3.matrix[1]->square == 18);
 }
 TEST_CASE("Test 8(new) Check MultiplyVector") {
 	Figure A(3, { 1, 3, 5 }, { 1, 5, 2 });
 	Figure B(4, { 0, 0, 5, 5 }, { 0, 5, 0, 5 });
 	Figure C(5, { 1, -3, 3,-2,-1 }, { 2, -2, 4,0, 3 });
-	Matrix M1(2, 3, { A,C,B }, { 0,1,1 }, { 0, 0, 1 });
+	Matrix M1(2, 3, { A,C,B }, { 1,1,1 }, { 0, 1, 2 });
 	Matrix M3;
-	M3.MultiplyVector(M1.matrix, { 3, 2, 1 }, 2, 3);
-	CHECK(M3.matrix[0]->square == 21);
+	std::vector<double> a = { 12,25 };
+	M3.MultiplyVector(M1, { 3, 2, 1 }, 2, 3);
+	CHECK(M3.matrix[0]->square == 6);
+	CHECK((int)M3.matrix[1]->square == 26);
 }
