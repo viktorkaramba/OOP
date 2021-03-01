@@ -13,9 +13,13 @@ typedef struct Node {
 
 
 struct Matrix {
+    /*!Count of  rows*/
     int c_of_rows;
+    /*!Count of  columns*/
     int c_of_columns;
-    int* count_of_elements;
+    /*!Massive for count of elements in one row*/
+    int* count_of_elements; 
+    /*!Massive of list */
     Listp* matrix;
     Matrix();
     Matrix(int C_of_Rows, int C_of_Columns);

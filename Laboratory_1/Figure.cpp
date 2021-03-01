@@ -1,5 +1,29 @@
 #include "Figure.h"
 
+/*!
+\param[in] Count_of_Points input parametr
+*/
+/*!
+\code
+Figure ::Figure(int Count_of_Points)
+{
+    count_of_points = Count_of_Points;
+    double Oxx;
+    double Oyy;
+    for (int i = 0; i < count_of_points; i++) {
+        std::cout << "Input coordinate (x ; y)" << std::endl;
+        std::cin >> Oxx;
+        Ox.push_back(Oxx);
+        std::cin >> Oyy;
+        Oy.push_back(Oyy);
+    }
+}
+
+\endcode
+*/
+/*!
+Constructor with one parametr
+*/
 Figure ::Figure(int Count_of_Points) {
     count_of_points = Count_of_Points;
     double Oxx;
@@ -13,19 +37,62 @@ Figure ::Figure(int Count_of_Points) {
     }
 }
 
+/*!
+\code
+Figure ::Figure(int Count_of_Points)
+{
+    count_of_points = Count_of_Points;
+    Ox = OX;
+    Oy = OY;
+}
+
+\endcode
+*/
+/*!
+Default constructor
+*/
 Figure::Figure(int Count_of_Points, std::vector<double>OX, std::vector<double>OY) {
     count_of_points = Count_of_Points;
     Ox = OX;
     Oy = OY;
 }
 
+/*!
+\code
+void Figure::Out() {
+{
+    std::cout << std::endl;
+    for (int i = 0; i < count_of_points; i++) {
+        std::cout << "( " << Ox[i] << ";" << Oy[i] << " )" << std::endl;
+    }
+}
+\endcode
+*/
+/*!
+Function for showing coordinates of figure 
+*/
 void Figure::Out() {
     std::cout << std::endl;
     for (int i = 0; i < count_of_points; i++) {
         std::cout << "( " << Ox[i] << ";" << Oy[i] << " )" << std::endl;
     }
 }
-
+/*!
+\code
+double Figure::Perimetr() {
+{
+     double perimetr = 0;
+    for (int i = 0; i < count_of_points; i++) {
+        int j = (i + 1) % count_of_points;
+        perimetr += sqrt((Ox[i] - Ox[j]) * (Ox[i] - Ox[j]) + (Oy[i] - Oy[j]) * (Oy[i] - Oy[j]));
+    }
+    return perimetr;
+}
+\endcode
+*/
+/*!
+Function for searching perimetr
+*/
 double Figure::Perimetr() {
     double perimetr = 0;
     for (int i = 0; i < count_of_points; i++) {
@@ -34,7 +101,29 @@ double Figure::Perimetr() {
     }
     return perimetr;
 }
-
+/*!
+\code
+double Figure::Square() {
+{
+     double square = 0;
+    double x1 = Ox[0];
+    double y1 = Oy[0];
+    double x2 = 0;
+    double y2= 0;
+    for (int i = 1; i < count_of_points; i++) {
+        x2 = Ox[i];
+        y2 = Oy[i];
+        square = square + (x1 + x2) * (y2 - y1);
+        x1 = x2;
+        y1 = y2;
+    }
+    return abs(square)/2;
+}
+\endcode
+*/
+/*!
+Function for searching square
+*/
 double Figure::Square() {
     double square = 0;
     double x1 = Ox[0];
@@ -48,10 +137,39 @@ double Figure::Square() {
         x1 = x2;
         y1 = y2;
     }
- 
     return abs(square)/2;
 }
-
+/*!
+\code
+int Figure::Isconvex() {
+{
+      if (count_of_points < 3)
+        return 0;
+    int i, j, k;
+    int flag = 0;
+    float z;
+    for (i = 0; i < count_of_points; i++) {
+        j = (i + 1) % count_of_points;
+        k = (i + 2) % count_of_points;
+        z = (Ox[j] - Ox[i]) * (Oy[k] - Oy[j]);
+        z -= (Oy[j] - Oy[i]) * (Ox[k] - Ox[j]);
+        if (z < 0)
+            flag |= 1;
+        else if (z > 0)
+            flag |= 2;
+        if (flag == 3)
+            return -1;
+    }
+    if (flag != 0)
+        return 1;
+    else
+        return 0;
+}
+\endcode
+*/
+/*!
+Function for searching convex
+*/
 int Figure::Isconvex() {
     if (count_of_points < 3)
         return 0;
@@ -75,7 +193,9 @@ int Figure::Isconvex() {
     else
         return 0;
 }
-
+/*!
+Function for checking figure by condition
+*/
 bool Figure::Checking_Figure() {
     if (count_of_points <= 4) {
         switch (count_of_points) {
@@ -310,7 +430,9 @@ bool Figure::Checking_Figure() {
         }
     }
 }
-
+/*!
+Function menu
+*/
 void Figure::Menu() {
     int number;
     std::cout << "1. Perimetr\t 2. Square\t 3. Checking Figure\t 4. Cheking_Convexity\t 5. Out" << std::endl;

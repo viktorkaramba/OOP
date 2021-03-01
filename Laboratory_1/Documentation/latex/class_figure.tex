@@ -1,0 +1,201 @@
+\hypertarget{class_figure}{}\doxysection{Figure Class Reference}
+\label{class_figure}\index{Figure@{Figure}}
+
+
+{\ttfamily \#include $<$Figure.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_figure_a11371145d75638627ed8e8650c41f895}{Figure}} (int Count\+\_\+of\+\_\+\+Points)
+\item 
+\mbox{\hyperlink{class_figure_a9ddc177372f0f475a3e36dcffb07dc4f}{Figure}} (int Count\+\_\+of\+\_\+\+Points, std\+::vector$<$ double $>$OX, std\+::vector$<$ double $>$OY)
+\item 
+void \mbox{\hyperlink{class_figure_a402e0981655bb6d8c9fe44c28727b6dc}{Out}} ()
+\item 
+double \mbox{\hyperlink{class_figure_a48fad598be5f3eea470fbe7c40328a17}{Perimetr}} ()
+\item 
+double \mbox{\hyperlink{class_figure_ae3ac13e0f1aa7b9fd4c6b2517c76fab3}{Square}} ()
+\item 
+int \mbox{\hyperlink{class_figure_ad27c6c7f29f77b632e8c13ac79a0f142}{Isconvex}} ()
+\item 
+bool \mbox{\hyperlink{class_figure_ab157a5e13854b992981c2c4f995debe6}{Checking\+\_\+\+Figure}} ()
+\item 
+void \mbox{\hyperlink{class_figure_af772aead3fb1bb4e317e8c387601b512}{Menu}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_figure_a11371145d75638627ed8e8650c41f895}\label{class_figure_a11371145d75638627ed8e8650c41f895}} 
+\index{Figure@{Figure}!Figure@{Figure}}
+\index{Figure@{Figure}!Figure@{Figure}}
+\doxysubsubsection{\texorpdfstring{Figure()}{Figure()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Figure\+::\+Figure (\begin{DoxyParamCaption}\item[{int}]{Count\+\_\+of\+\_\+\+Points }\end{DoxyParamCaption})}
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em Count\+\_\+of\+\_\+\+Points} & input parametr\\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{class_figure_a11371145d75638627ed8e8650c41f895}{Figure ::Figure}}(\textcolor{keywordtype}{int} Count\_of\_Points)}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{    count\_of\_points = Count\_of\_Points;}
+\DoxyCodeLine{    \textcolor{keywordtype}{double} Oxx;}
+\DoxyCodeLine{    \textcolor{keywordtype}{double} Oyy;}
+\DoxyCodeLine{    \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < count\_of\_points; i++) \{}
+\DoxyCodeLine{        std::cout << \textcolor{stringliteral}{"{}Input coordinate (x ; y)"{}} << std::endl;}
+\DoxyCodeLine{        std::cin >> Oxx;}
+\DoxyCodeLine{        Ox.push\_back(Oxx);}
+\DoxyCodeLine{        std::cin >> Oyy;}
+\DoxyCodeLine{        Oy.push\_back(Oyy);}
+\DoxyCodeLine{    \}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+Constructor with one parametr \mbox{\Hypertarget{class_figure_a9ddc177372f0f475a3e36dcffb07dc4f}\label{class_figure_a9ddc177372f0f475a3e36dcffb07dc4f}} 
+\index{Figure@{Figure}!Figure@{Figure}}
+\index{Figure@{Figure}!Figure@{Figure}}
+\doxysubsubsection{\texorpdfstring{Figure()}{Figure()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Figure\+::\+Figure (\begin{DoxyParamCaption}\item[{int}]{Count\+\_\+of\+\_\+\+Points,  }\item[{std\+::vector$<$ double $>$}]{OX,  }\item[{std\+::vector$<$ double $>$}]{OY }\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\mbox{\hyperlink{class_figure_a11371145d75638627ed8e8650c41f895}{Figure ::Figure}}(\textcolor{keywordtype}{int} Count\_of\_Points)}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{    count\_of\_points = Count\_of\_Points;}
+\DoxyCodeLine{    Ox = OX;}
+\DoxyCodeLine{    Oy = OY;}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+Default constructor 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_figure_ab157a5e13854b992981c2c4f995debe6}\label{class_figure_ab157a5e13854b992981c2c4f995debe6}} 
+\index{Figure@{Figure}!Checking\_Figure@{Checking\_Figure}}
+\index{Checking\_Figure@{Checking\_Figure}!Figure@{Figure}}
+\doxysubsubsection{\texorpdfstring{Checking\_Figure()}{Checking\_Figure()}}
+{\footnotesize\ttfamily bool Figure\+::\+Checking\+\_\+\+Figure (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Function for checking figure by condition \mbox{\Hypertarget{class_figure_ad27c6c7f29f77b632e8c13ac79a0f142}\label{class_figure_ad27c6c7f29f77b632e8c13ac79a0f142}} 
+\index{Figure@{Figure}!Isconvex@{Isconvex}}
+\index{Isconvex@{Isconvex}!Figure@{Figure}}
+\doxysubsubsection{\texorpdfstring{Isconvex()}{Isconvex()}}
+{\footnotesize\ttfamily int Figure\+::\+Isconvex (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordtype}{int} \mbox{\hyperlink{class_figure_ad27c6c7f29f77b632e8c13ac79a0f142}{Figure::Isconvex}}() \{}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{      \textcolor{keywordflow}{if} (count\_of\_points < 3)}
+\DoxyCodeLine{        \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{    \textcolor{keywordtype}{int} i, j, k;}
+\DoxyCodeLine{    \textcolor{keywordtype}{int} flag = 0;}
+\DoxyCodeLine{    \textcolor{keywordtype}{float} z;}
+\DoxyCodeLine{    \textcolor{keywordflow}{for} (i = 0; i < count\_of\_points; i++) \{}
+\DoxyCodeLine{        j = (i + 1) \% count\_of\_points;}
+\DoxyCodeLine{        k = (i + 2) \% count\_of\_points;}
+\DoxyCodeLine{        z = (Ox[j] -\/ Ox[i]) * (Oy[k] -\/ Oy[j]);}
+\DoxyCodeLine{        z -\/= (Oy[j] -\/ Oy[i]) * (Ox[k] -\/ Ox[j]);}
+\DoxyCodeLine{        \textcolor{keywordflow}{if} (z < 0)}
+\DoxyCodeLine{            flag |= 1;}
+\DoxyCodeLine{        \textcolor{keywordflow}{else} \textcolor{keywordflow}{if} (z > 0)}
+\DoxyCodeLine{            flag |= 2;}
+\DoxyCodeLine{        \textcolor{keywordflow}{if} (flag == 3)}
+\DoxyCodeLine{            \textcolor{keywordflow}{return} -\/1;}
+\DoxyCodeLine{    \}}
+\DoxyCodeLine{    \textcolor{keywordflow}{if} (flag != 0)}
+\DoxyCodeLine{        \textcolor{keywordflow}{return} 1;}
+\DoxyCodeLine{    \textcolor{keywordflow}{else}}
+\DoxyCodeLine{        \textcolor{keywordflow}{return} 0;}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+Function for searching convex \mbox{\Hypertarget{class_figure_af772aead3fb1bb4e317e8c387601b512}\label{class_figure_af772aead3fb1bb4e317e8c387601b512}} 
+\index{Figure@{Figure}!Menu@{Menu}}
+\index{Menu@{Menu}!Figure@{Figure}}
+\doxysubsubsection{\texorpdfstring{Menu()}{Menu()}}
+{\footnotesize\ttfamily void Figure\+::\+Menu (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Function menu \mbox{\Hypertarget{class_figure_a402e0981655bb6d8c9fe44c28727b6dc}\label{class_figure_a402e0981655bb6d8c9fe44c28727b6dc}} 
+\index{Figure@{Figure}!Out@{Out}}
+\index{Out@{Out}!Figure@{Figure}}
+\doxysubsubsection{\texorpdfstring{Out()}{Out()}}
+{\footnotesize\ttfamily void Figure\+::\+Out (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordtype}{void} \mbox{\hyperlink{class_figure_a402e0981655bb6d8c9fe44c28727b6dc}{Figure::Out}}() \{}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{    std::cout << std::endl;}
+\DoxyCodeLine{    \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < count\_of\_points; i++) \{}
+\DoxyCodeLine{        std::cout << \textcolor{stringliteral}{"{}( "{}} << Ox[i] << \textcolor{stringliteral}{"{};"{}} << Oy[i] << \textcolor{stringliteral}{"{} )"{}} << std::endl;}
+\DoxyCodeLine{    \}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+Function for showing coordinates of figure \mbox{\Hypertarget{class_figure_a48fad598be5f3eea470fbe7c40328a17}\label{class_figure_a48fad598be5f3eea470fbe7c40328a17}} 
+\index{Figure@{Figure}!Perimetr@{Perimetr}}
+\index{Perimetr@{Perimetr}!Figure@{Figure}}
+\doxysubsubsection{\texorpdfstring{Perimetr()}{Perimetr()}}
+{\footnotesize\ttfamily double Figure\+::\+Perimetr (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordtype}{double} \mbox{\hyperlink{class_figure_a48fad598be5f3eea470fbe7c40328a17}{Figure::Perimetr}}() \{}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{     \textcolor{keywordtype}{double} perimetr = 0;}
+\DoxyCodeLine{    \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 0; i < count\_of\_points; i++) \{}
+\DoxyCodeLine{        \textcolor{keywordtype}{int} j = (i + 1) \% count\_of\_points;}
+\DoxyCodeLine{        perimetr += sqrt((Ox[i] -\/ Ox[j]) * (Ox[i] -\/ Ox[j]) + (Oy[i] -\/ Oy[j]) * (Oy[i] -\/ Oy[j]));}
+\DoxyCodeLine{    \}}
+\DoxyCodeLine{    \textcolor{keywordflow}{return} perimetr;}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+Function for searching perimetr \mbox{\Hypertarget{class_figure_ae3ac13e0f1aa7b9fd4c6b2517c76fab3}\label{class_figure_ae3ac13e0f1aa7b9fd4c6b2517c76fab3}} 
+\index{Figure@{Figure}!Square@{Square}}
+\index{Square@{Square}!Figure@{Figure}}
+\doxysubsubsection{\texorpdfstring{Square()}{Square()}}
+{\footnotesize\ttfamily double Figure\+::\+Square (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\textcolor{keywordtype}{double} \mbox{\hyperlink{class_figure_ae3ac13e0f1aa7b9fd4c6b2517c76fab3}{Figure::Square}}() \{}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{     \textcolor{keywordtype}{double} square = 0;}
+\DoxyCodeLine{    \textcolor{keywordtype}{double} x1 = Ox[0];}
+\DoxyCodeLine{    \textcolor{keywordtype}{double} y1 = Oy[0];}
+\DoxyCodeLine{    \textcolor{keywordtype}{double} x2 = 0;}
+\DoxyCodeLine{    \textcolor{keywordtype}{double} y2= 0;}
+\DoxyCodeLine{    \textcolor{keywordflow}{for} (\textcolor{keywordtype}{int} i = 1; i < count\_of\_points; i++) \{}
+\DoxyCodeLine{        x2 = Ox[i];}
+\DoxyCodeLine{        y2 = Oy[i];}
+\DoxyCodeLine{        square = square + (x1 + x2) * (y2 -\/ y1);}
+\DoxyCodeLine{        x1 = x2;}
+\DoxyCodeLine{        y1 = y2;}
+\DoxyCodeLine{    \}}
+\DoxyCodeLine{    \textcolor{keywordflow}{return} abs(square)/2;}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+
+
+Function for searching square 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+Xiaomi/source/repos/\+OOP/\+Laboratory\+\_\+1/\mbox{\hyperlink{_figure_8h}{Figure.\+h}}\item 
+C\+:/\+Users/\+Xiaomi/source/repos/\+OOP/\+Laboratory\+\_\+1/\mbox{\hyperlink{_figure_8cpp}{Figure.\+cpp}}\end{DoxyCompactItemize}
