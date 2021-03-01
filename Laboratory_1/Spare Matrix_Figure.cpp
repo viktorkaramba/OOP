@@ -256,6 +256,54 @@ void Matrix::SumMatrix(Matrix M1, Matrix M2, int C_of_Rows, int C_of_Columns)
         if (M1.count_of_elements[i] == 0 && M2.count_of_elements[i] == 0) {
             continue;
         }
+        else if (M1.count_of_elements[i] != 0 && M2.count_of_elements[i] == 0) {
+            p = M1.matrix[i];
+            while (p) {
+                pc = p->next;
+                p->next = p2;
+                p2 = p;
+                p = pc;
+            }
+            pa = p2;
+            M1.matrix[i] = p2;
+            p1 = NULL;
+            while (pa) {
+                matrix[i] = new Node;
+                matrix[i]->index_of_column = pa->index_of_column;
+                matrix[i]->perimetr = pa->perimetr;
+                matrix[i]->square = pa->square;
+                matrix[i]->convex = pa->convex;
+                matrix[i]->next = p1;
+                p1 = matrix[i];
+                pa = pa->next;
+                count_of_elements[i] = count_of_elements[i] + 1;
+            }
+            continue;
+        }
+        else if (M1.count_of_elements[i] == 0 && M2.count_of_elements[i] != 0) {
+            p = M2.matrix[i];
+            while (p) {
+                pc = p->next;
+                p->next = p2;
+                p2 = p;
+                p = pc;
+            }
+            pb = p2;
+            M2.matrix[i] = p2;
+            p1 = NULL;
+            while (pb) {
+                matrix[i] = new Node;
+                matrix[i]->index_of_column = pb->index_of_column;
+                matrix[i]->perimetr = pb->perimetr;
+                matrix[i]->square = pb->square;
+                matrix[i]->convex = pb->convex;
+                matrix[i]->next = p1;
+                p1 = matrix[i];
+                pb = pb->next;
+                count_of_elements[i] = count_of_elements[i] + 1;
+            }
+            continue;
+        }
         else {
             p = M1.matrix[i];
             while (p) {
@@ -312,21 +360,6 @@ void Matrix::SumMatrix(Matrix M1, Matrix M2, int C_of_Rows, int C_of_Columns)
                     pb = pb->next;
                     count_of_elements[i] = count_of_elements[i] + 1;
                 }
-            }
-            if (pb)
-                pa = pb;
-            //вибір непереглянутого до кінця рядка
-            while (pa) {
-                //копіювання рядка, що залишився
-                matrix[i] = new Node;
-                matrix[i]->index_of_column = pa->index_of_column;
-                matrix[i]->perimetr = pa->perimetr;
-                matrix[i]->square = pa->square;
-                matrix[i]->convex = pa->convex;
-                matrix[i]->next = p1;
-                p1 = matrix[i];
-                pa = pa->next;
-                count_of_elements[i] = count_of_elements[i] + 1;
             }
         }
     }

@@ -48,8 +48,8 @@ double Figure::Square() {
         x1 = x2;
         y1 = y2;
     }
-    square = square + (Ox[0] + x2) * (Oy[0] - y2);
-    return abs(square) / 2;
+ 
+    return abs(square)/2;
 }
 
 int Figure::Isconvex() {
