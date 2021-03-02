@@ -24,9 +24,6 @@ struct Matrix {
     Matrix();
     Matrix(int C_of_Rows, int C_of_Columns);
     Matrix(int C_of_Rows, int C_of_Columns, std::vector<Figure> Figures, std::vector<int> Rows, std::vector<int> Columns);
-   /*! 
-   ![Activity diagram for Show_Matrix_Square()](\UML Diagrams\Activity Diagram\Show-Matrix Activity Diagram.jpg
-   */
     void Show_Matrix_Square();
     void Show_Matrix_Perimetr();
     void Show_Matrix_Convex();
