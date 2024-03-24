@@ -6,22 +6,21 @@ Figure::Figure(int count_of_points) {
     for (int i = 0; i < count_of_points; i++) {
         std::cout << "Input coordinate (x ; y)" << std::endl;
         std::cin >> x;
-        point_x.push_back(x);
         std::cin >> y;
-        point_y.push_back(y);
+        Point point = *new Point(x, y);
+        points.push_back(point);
     }
 }
 
-Figure::Figure(int count_of_points, std::vector<int>point_x, std::vector<int>point_y) {
+Figure::Figure(int count_of_points, std::vector<Point>points) {
     this->count_of_points = count_of_points;
-    this->point_x = point_x;
-    this->point_y = point_y;
+    this->points = points;
 }
 
 void Figure::Out() {
     std::cout << std::endl;
     for (int i = 0; i < count_of_points; i++) {
-        std::cout << "( " << point_x[i] << ";" << point_y[i] << " )" << std::endl;
+        std::cout << "( " << points[i].Get_X() << ";" << points[i].Get_Y() << " )" << std::endl;
     }
 }
 
@@ -29,25 +28,25 @@ int Figure::Perimetr() {
     int perimetr = 0;
     for (int i = 0; i < count_of_points; i++) {
         int j = (i + 1) % count_of_points;
-        perimetr += sqrt((point_x[i] - point_x[j]) * (point_x[i] - point_x[j]) + 
-            (point_y[i] - point_y[j]) * (point_y[i] - point_y[j]));
+        perimetr += sqrt((points[i].Get_X() - points[j].Get_X()) * (points[i].Get_X() - points[j].Get_X()) +
+            (points[i].Get_Y() - points[j].Get_Y()) * (points[i].Get_Y() - points[j].Get_Y()));
     }
     return perimetr;
 }
 
 double Figure::Square() {
     double square = 0;
-    double x_0 = point_x[0];
-    double y_0 = point_y[0];
+    double x_0 = points[0].Get_X();
+    double y_0 = points[0].Get_Y();
     double additional_x = 0, additional_y = 0;
     for (int i = 1; i < count_of_points; i++) {
-        additional_x = point_x[i];
-        additional_y = point_y[i];
+        additional_x = points[i].Get_X();
+        additional_y = points[i].Get_Y();
         square = square + (x_0 + additional_x) * (additional_y - y_0);
         x_0 = additional_x;
         y_0 = additional_y;
     }
-    square = square + (point_x[0] + additional_x) * (point_y[0] - additional_y);
+    square = square + (points[0].Get_X() + additional_x) * (points[0].Get_Y() - additional_y);
     return abs(square) / 2;
 }
 
@@ -60,8 +59,8 @@ int Figure::Isconvex() {
     for (i = 0; i < count_of_points; i++) {
         j = (i + 1) % count_of_points;
         k = (i + 2) % count_of_points;
-        z = (point_x[j] - point_x[i]) * (point_y[k] - point_y[j]);
-        z -= (point_y[j] - point_y[i]) * (point_x[k] - point_x[j]);
+        z = (points[j].Get_X() - points[i].Get_X()) * (points[k].Get_X() - points[j].Get_Y());
+        z -= (points[j].Get_Y() - points[i].Get_Y()) * (points[k].Get_X() - points[j].Get_X());
         if (z < 0)
             flag |= 1;
         else if (z > 0)
@@ -83,9 +82,9 @@ bool Figure::Checking_Figure() {
             std::cin >> item;
             switch (item) {
             case 1:
-                if (sqrt(pow(point_x[0] - point_x[1], 2) + (pow(point_y[0] - point_y[1], 2))) == sqrt(pow(point_x[0] - point_x[2], 2) + (pow(point_y[0] - point_y[2], 2)))
-                    || sqrt(pow(point_x[0] - point_x[1], 2) + (pow(point_y[0] - point_y[1], 2))) == sqrt(pow(point_x[1] - point_x[2], 2) + (pow(point_y[1] - point_y[2], 2)))
-                    || sqrt(pow(point_x[0] - point_x[2], 2) + (pow(point_y[0] - point_y[2], 2))) == sqrt(pow(point_x[1] - point_x[2], 2) + (pow(point_y[1] - point_y[2], 2))))
+                if (sqrt(pow(points[0].Get_X() - points[1].Get_X(), 2) + (pow(points[0].Get_Y() - points[1].Get_Y(), 2))) == sqrt(pow(points[0].Get_X() - points[2].Get_X(), 2) + (pow(points[0].Get_Y() - points[2].Get_Y(), 2)))
+                    || sqrt(pow(points[0].Get_X() - points[1].Get_X(), 2) + (pow(points[0].Get_Y() - points[1].Get_Y(), 2))) == sqrt(pow(points[1].Get_X() - points[2].Get_X(), 2) + (pow(points[1].Get_Y() - points[2].Get_Y(), 2)))
+                    || sqrt(pow(points[0].Get_X() - points[2].Get_X(), 2) + (pow(points[0].Get_Y() - points[2].Get_Y(), 2))) == sqrt(pow(points[1].Get_X() - points[2].Get_X(), 2) + (pow(points[1].Get_Y() - points[2].Get_Y(), 2))))
                 {
                     return true;
                 }
@@ -93,18 +92,18 @@ bool Figure::Checking_Figure() {
                     return false;
                 }
             case 2:
-                if (sqrt(pow(point_x[0] - point_x[1], 2) + (pow(point_y[0] - point_y[1], 2))) + sqrt(pow(point_x[0] - point_x[2], 2) + (pow(point_y[0] - point_y[2], 2))) > sqrt(pow(point_x[1] - point_x[2], 2) + (pow(point_y[1] - point_y[2], 2)))) {
-                    if (pow(sqrt(pow(point_x[1] - point_x[2], 2) + (pow(point_y[1] - point_y[2], 2))), 2) == pow(sqrt(pow(point_x[0] - point_x[1], 2) + (pow(point_y[0] - point_y[1], 2))), 2) + pow(sqrt(pow(point_x[0] - point_y[2], 2) + (pow(point_y[0] - point_y[2], 2))), 2)) {
+                if (sqrt(pow(points[0].Get_X() - points[1].Get_X(), 2) + (pow(points[0].Get_Y() - points[1].Get_Y(), 2))) + sqrt(pow(points[0].Get_X() - points[2].Get_X(), 2) + (pow(points[0].Get_Y() - points[2].Get_Y(), 2))) > sqrt(pow(points[1].Get_X() - points[2].Get_X(), 2) + (pow(points[1].Get_Y() - points[2].Get_Y(), 2)))) {
+                    if (pow(sqrt(pow(points[1].Get_X() - points[2].Get_X(), 2) + (pow(points[1].Get_Y() - points[2].Get_Y(), 2))), 2) == pow(sqrt(pow(points[0].Get_X() - points[1].Get_X(), 2) + (pow(points[0].Get_Y() - points[1].Get_Y(), 2))), 2) + pow(sqrt(pow(points[0].Get_X() - points[2].Get_Y(), 2) + (pow(points[0].Get_Y() - points[2].Get_Y(), 2))), 2)) {
                         return true;
                     }
                 }
-                if (sqrt(pow(point_x[0] - point_x[1], 2) + (pow(point_y[0] - point_y[1], 2))) + sqrt(pow(point_x[1] - point_x[2], 2) + (pow(point_y[1] - point_y[2], 2))) > sqrt(pow(point_x[0] - point_x[2], 2) + (pow(point_y[0] - point_y[2], 2)))) {
-                    if (pow(sqrt(pow(point_x[0] - point_x[2], 2) + (pow(point_y[0] - point_y[2], 2))), 2) == pow(sqrt(pow(point_x[0] - point_x[1], 2) + (pow(point_y[0] - point_y[1], 2))), 2) + pow(sqrt(pow(point_x[1] - point_x[2], 2) + (pow(point_y[1] - point_y[2], 2))), 2)) {
+                if (sqrt(pow(points[0].Get_X() - points[1].Get_X(), 2) + (pow(points[0].Get_Y() - points[1].Get_Y(), 2))) + sqrt(pow(points[1].Get_X() - points[2].Get_X(), 2) + (pow(points[1].Get_Y() - points[2].Get_Y(), 2))) > sqrt(pow(points[0].Get_X() - points[2].Get_X(), 2) + (pow(points[0].Get_Y() - points[2].Get_Y(), 2)))) {
+                    if (pow(sqrt(pow(points[0].Get_X() - points[2].Get_X(), 2) + (pow(points[0].Get_Y() - points[2].Get_Y(), 2))), 2) == pow(sqrt(pow(points[0].Get_X() - points[1].Get_X(), 2) + (pow(points[0].Get_Y() - points[1].Get_Y(), 2))), 2) + pow(sqrt(pow(points[1].Get_X() - points[2].Get_X(), 2) + (pow(points[1].Get_Y() - points[2].Get_Y(), 2))), 2)) {
                         return true;
                     }
                 }
-                if (sqrt(pow(point_x[0] - point_x[2], 2) + (pow(point_y[0] - point_y[2], 2))) + sqrt(pow(point_x[1] - point_x[2], 2) + (pow(point_y[1] - point_y[2], 2))) > sqrt(pow(point_x[0] - point_x[1], 2) + (pow(point_y[0] - point_y[1], 2)))) {
-                    if (pow(sqrt(pow(point_x[0] - point_x[1], 2) + (pow(point_y[0] - point_y[1], 2))), 2) == pow(sqrt(pow(point_x[0] - point_x[2], 2) + (pow(point_y[0] - point_y[2], 2))), 2) + pow(sqrt(pow(point_x[1] - point_x[2], 2) + (pow(point_y[1] - point_y[2], 2))), 2)) {
+                if (sqrt(pow(points[0].Get_X() - points[2].Get_X(), 2) + (pow(points[0].Get_Y() - points[2].Get_Y(), 2))) + sqrt(pow(points[1].Get_X() - points[2].Get_X(), 2) + (pow(points[1].Get_Y() - points[2].Get_Y(), 2))) > sqrt(pow(points[0].Get_X() - points[1].Get_X(), 2) + (pow(points[0].Get_Y() - points[1].Get_Y(), 2)))) {
+                    if (pow(sqrt(pow(points[0].Get_X() - points[1].Get_X(), 2) + (pow(points[0].Get_Y() - points[1].Get_Y(), 2))), 2) == pow(sqrt(pow(points[0].Get_X() - points[2].Get_X(), 2) + (pow(points[0].Get_Y() - points[2].Get_Y(), 2))), 2) + pow(sqrt(pow(points[1].Get_X() - points[2].Get_X(), 2) + (pow(points[1].Get_Y() - points[2].Get_Y(), 2))), 2)) {
                         return true;
                     }
                 }
@@ -112,7 +111,7 @@ bool Figure::Checking_Figure() {
                     return false;
                 }
             case 3:
-                if (sqrt(pow(point_x[0] - point_x[1], 2) + (pow(point_y[0] - point_y[1], 2))) == sqrt(pow(point_x[0] - point_x[2], 2) + (pow(point_y[0] - point_y[2], 2))) && sqrt(pow(point_x[0] - point_x[2], 2) + (pow(point_y[0] - point_y[2], 2))) == sqrt(pow(point_x[1] - point_x[2], 2) + (pow(point_y[1] - point_y[2], 2))) && sqrt(pow(point_x[0] - point_x[1], 2) + (pow(point_y[0] - point_y[1], 2))) == sqrt(pow(point_x[1] - point_x[2], 2) + (pow(point_y[1] - point_y[2], 2)))) {
+                if (sqrt(pow(points[0].Get_X() - points[1].Get_X(), 2) + (pow(points[0].Get_Y() - points[1].Get_Y(), 2))) == sqrt(pow(points[0].Get_X() - points[2].Get_X(), 2) + (pow(points[0].Get_Y() - points[2].Get_Y(), 2))) && sqrt(pow(points[0].Get_X() - points[2].Get_X(), 2) + (pow(points[0].Get_Y() - points[2].Get_Y(), 2))) == sqrt(pow(points[1].Get_X() - points[2].Get_X(), 2) + (pow(points[1].Get_Y() - points[2].Get_Y(), 2))) && sqrt(pow(points[0].Get_X() - points[1].Get_X(), 2) + (pow(points[0].Get_Y() - points[1].Get_Y(), 2))) == sqrt(pow(points[1].Get_X() - points[2].Get_X(), 2) + (pow(points[1].Get_Y() - points[2].Get_Y(), 2)))) {
                     return true;
                 }
                 else {
@@ -121,12 +120,12 @@ bool Figure::Checking_Figure() {
             }
         case 4:
             int b;
-            float AB = ((point_x[0] - point_x[1]) * (point_x[0] - point_x[1]) + (point_y[0] - point_y[1]) * (point_y[0] - point_y[1]));
-            float BC = ((point_x[1] - point_x[2]) * (point_x[1] - point_x[2]) + (point_y[1] - point_y[2]) * (point_y[1] - point_y[2]));
-            float CD = ((point_x[2] - point_x[3]) * (point_x[2] - point_x[3]) + (point_y[2] - point_y[3]) * (point_y[2] - point_y[3]));
-            float DA = ((point_x[3] - point_x[0]) * (point_x[3] - point_x[0]) + (point_y[3] - point_y[0]) * (point_y[3] - point_y[0]));
-            float AC = ((point_x[0] - point_x[2]) * (point_x[0] - point_x[2]) + (point_y[0] - point_y[2]) * (point_y[0] - point_y[2]));
-            float BD = ((point_x[1] - point_x[3]) * (point_x[1] - point_x[3]) + (point_y[1] - point_y[3]) * (point_y[1] - point_y[3]));
+            float AB = ((points[0].Get_X() - points[1].Get_X()) * (points[0].Get_X() - points[1].Get_X()) + (points[0].Get_Y() - points[1].Get_Y()) * (points[0].Get_Y() - points[1].Get_Y()));
+            float BC = ((points[1].Get_X() - points[2].Get_X()) * (points[1].Get_X() - points[2].Get_X()) + (points[1].Get_Y() - points[2].Get_Y()) * (points[1].Get_Y() - points[2].Get_Y()));
+            float CD = ((points[2].Get_X() - points[3].Get_X()) * (points[2].Get_X() - points[3].Get_X()) + (points[2].Get_Y() - points[3].Get_Y()) * (points[2].Get_Y() - points[3].Get_Y()));
+            float DA = ((points[3].Get_X() - points[0].Get_X()) * (points[3].Get_X() - points[0].Get_X()) + (points[3].Get_Y() - points[0].Get_Y()) * (points[3].Get_Y() - points[0].Get_Y()));
+            float AC = ((points[0].Get_X() - points[2].Get_X()) * (points[0].Get_X() - points[2].Get_X()) + (points[0].Get_Y() - points[2].Get_Y()) * (points[0].Get_Y() - points[2].Get_Y()));
+            float BD = ((points[1].Get_X() - points[3].Get_X()) * (points[1].Get_X() - points[3].Get_X()) + (points[1].Get_Y() - points[3].Get_Y()) * (points[1].Get_Y() - points[3].Get_Y()));
             std::cout << "1. Trapeze  2. Parallelogramr  3. Diamond  4. Rectangle  5. Square  6. Equilateral trapezoid  7. Deltoid " << std::endl;
             std::cin >> b;
             if (b == 1) {
@@ -135,7 +134,7 @@ bool Figure::Checking_Figure() {
                     return false;
                 }
                 else
-                    if (((point_x[0] - point_x[1]) * (point_y[2] - point_y[3])) == ((point_y[0] - point_y[1]) * (point_x[2] - point_x[3])) || ((point_x[0] - point_y[3]) * (point_y[1] - point_y[2])) == ((point_y[0] - point_y[3]) * (point_x[1] - point_x[2]))) {
+                    if (((points[0].Get_X() - points[1].Get_X()) * (points[2].Get_Y() - points[3].Get_Y())) == ((points[0].Get_Y() - points[1].Get_Y()) * (points[2].Get_X() - points[3].Get_X())) || ((points[0].Get_X() - points[3].Get_Y()) * (points[1].Get_Y() - points[2].Get_Y())) == ((points[0].Get_Y() - points[3].Get_Y()) * (points[1].Get_X() - points[2].Get_X()))) {
                         std::cout << "Is Trapeze" << std::endl;
                         return true;
                     }
@@ -232,7 +231,7 @@ bool Figure::Checking_Figure() {
                     return false;
                 }
                 else
-                    if (((point_x[0] - point_x[1]) * (point_y[2] - point_y[3])) == ((point_y[0] - point_y[1]) * (point_x[2] - point_x[3]))) {
+                    if (((points[0].Get_X() - points[1].Get_X()) * (points[2].Get_Y() - points[3].Get_Y())) == ((points[0].Get_Y() - points[1].Get_Y()) * (points[2].Get_X() - points[3].Get_X()))) {
                         if (BC == DA) {
                             std::cout << "Is Equilateral trapezoid" << std::endl;
                             return true;
@@ -242,7 +241,7 @@ bool Figure::Checking_Figure() {
                             return false;
                         }
                     }
-                    else if (((point_x[0] - point_y[3]) * (point_y[1] - point_y[2])) == ((point_y[0] - point_y[3]) * (point_x[1] - point_x[2]))) {
+                    else if (((points[0].Get_X() - points[3].Get_Y()) * (points[1].Get_Y() - points[2].Get_Y())) == ((points[0].Get_Y() - points[3].Get_Y()) * (points[1].Get_X() - points[2].Get_X()))) {
                         if (AB == CD) {
                             std::cout << "Is Equilateral trapezoid" << std::endl;
                             return true;
@@ -276,16 +275,16 @@ bool Figure::Checking_Figure() {
             for (int i = 0; i < count_of_points; i++) {
                 for (int j = i + 1; j < count_of_points; j++) {
                     if (i != count_of_points - 1) {
-                        leStr.push_back(((point_x[i] - point_x[j]) * (point_x[i] - point_x[j]) + (point_y[i] - point_y[j]) * (point_y[i] - point_y[j])));
+                        leStr.push_back(((points[i].Get_X() - points[j].Get_X()) * (points[i].Get_X() - points[j].Get_X()) + (points[i].Get_Y() - points[j].Get_Y()) * (points[i].Get_Y() - points[j].Get_Y())));
                     }
                     else if (i == count_of_points - 1) {
-                        point_x[j] = point_x[0];
-                        point_y[j] = point_x[0];
-                        leStr.push_back(((point_x[j] - point_x[i]) * (point_x[j] - point_x[i]) + (point_y[j] - point_y[i]) * (point_y[j] - point_y[i])));
+                        points[j].Set_X(points[0].Get_X());
+                        points[j].Set_Y(points[0].Get_X());
+                        leStr.push_back(((points[j].Get_X() - points[i].Get_X()) * (points[j].Get_X() - points[i].Get_X()) + (points[j].Get_Y() - points[i].Get_Y()) * (points[j].Get_Y() - points[i].Get_Y())));
                     }
                 }
             }
-            float a = ((point_x[0] - point_x[1]) * (point_x[0] - point_x[1]) + (point_y[0] - point_y[1]) * (point_y[0] - point_y[1]));
+            float a = ((points[0].Get_X() - points[1].Get_X()) * (points[0].Get_X() - points[1].Get_X()) + (points[0].Get_Y() - points[1].Get_Y()) * (points[0].Get_Y() - points[1].Get_Y()));
             int counter = 0;
             for (int j = 0; j < leStr.size(); j++) {
                 if (a == leStr[j]) {

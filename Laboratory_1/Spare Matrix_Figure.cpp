@@ -15,14 +15,13 @@ Matrix::Matrix(int row_count, int col_count) {
             if (point_count >= 3) {
                 figure_matrix[i] = new Node;//Якщо к-сть сторін в фігурі менше 3 то ми не зберігаєм її в матриці інакше а поле даних заносим значення
                 int x, y;
-                std::vector<int> point_x, point_y;
+                std::vector<Point> points;
                 for (int k = 0; k < point_count; k++) {
                     std::cout << "Input coordinate (x; y)" << std::endl;
                     std::cin >> x >> y;
-                    point_x.push_back(x);
-                    point_y.push_back(y);
+                    points.push_back(*new Point(x, y));
                 }
-                Figure figure(point_count, point_x, point_y);
+                Figure figure(point_count, points);
                 figure_matrix[i]->square = figure.Square();
                 figure_matrix[i]->perimetr = figure.Perimetr();
                 figure_matrix[i]->convex = figure.Isconvex();
@@ -107,7 +106,7 @@ void Matrix::Show_Matrix_Perimetr() {
         current_node = figure_matrix[i];
         for (int j = 0; j < figures_in_row[i]; j++) {
             std::cout << current_node->perimetr << " ";
-            current_node = currentNode->next;
+            current_node = current_node->next;
         }
         std::cout << std::endl;
     }
