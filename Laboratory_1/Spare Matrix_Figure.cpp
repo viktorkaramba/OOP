@@ -1,11 +1,11 @@
 #include "Spare Matrix_Figure.h"
 
-Matrix::Matrix(int row_count, int col_count) {
-    InitializeMatrix(row_count, col_count);
+Matrix::Matrix(int row_count, int column_count) {
+    InitializeMatrix(row_count, column_count);
     Listp current_node = NULL;
     for (int i = 0; i < row_count; i++) {
         figures_in_row[i] = 0;
-        for (int j = 0; j < col_count; j++) {
+        for (int j = 0; j < column_count; j++) {
             int point_count;
             std::cout << "Input count of point of figure" << std::endl;
             std::cin >> point_count;
@@ -19,21 +19,15 @@ Matrix::Matrix(int row_count, int col_count) {
                     points.push_back(*new Point(x, y));
                 }
                 Figure figure(point_count, points);
-                figure_matrix[i]->square = figure.Square();
-                figure_matrix[i]->perimetr = figure.Perimetr();
-                figure_matrix[i]->convex = figure.Isconvex();
-                figure_matrix[i]->column_index = j;
-                figure_matrix[i]->next = current_node;
-                current_node = figure_matrix[i];
-                figures_in_row[i]++;  //Масив що містить к-сть елементів в кожному рядку
+                InitializeFigureMatrix(i, figure, j, current_node);
             }
         }
     }
     std::cout << std::endl;
 }
 
-Matrix::Matrix(int row_count, int col_count, std::vector<Figure> figures, std::vector<int> point_x, std::vector<int> point_y) {
-    InitializeMatrix(row_count, col_count);
+Matrix::Matrix(int row_count, int column_count, std::vector<Figure> figures, std::vector<int> point_x, std::vector<int> point_y) {
+    InitializeMatrix(row_count, column_count);
     Listp current_node = NULL;
     int k = 0;
     int target_x = 0; int target_y = 0;
@@ -41,7 +35,7 @@ Matrix::Matrix(int row_count, int col_count, std::vector<Figure> figures, std::v
     for (int i = 0; i < row_count; i++) {
         figures_in_row[i] = 0;
         int row_index = i;
-        for (int j = 0; j < col_count; j++) {
+        for (int j = 0; j < column_count; j++) {
             int column_index = j;
             for (int r = 0; r < point_x.size(); r++) {
                 if (row_index == point_x[r]) {
@@ -63,14 +57,7 @@ Matrix::Matrix(int row_count, int col_count, std::vector<Figure> figures, std::v
 
             }
             if (target_x == target_y) {
-                figure_matrix[i] = new Node;
-                figure_matrix[i]->square = figures[k].Square();
-                figure_matrix[i]->perimetr = figures[k].Perimetr();
-                figure_matrix[i]->convex = figures[k].Isconvex();
-                figure_matrix[i]->column_index = j;
-                figure_matrix[i]->next = current_node;
-                current_node = figure_matrix[i];
-                figures_in_row[i]++;//Масив що містить к-сть елементів в кожному рядку
+                InitializeFigureMatrix(i, figures[k], j, current_node);
                 k++;
                 h++;
                 l++;
@@ -78,6 +65,42 @@ Matrix::Matrix(int row_count, int col_count, std::vector<Figure> figures, std::v
         }
     }
     std::cout << std::endl;
+}
+
+int Matrix::Get_Row_Count() {
+    return row_count;
+}
+int Matrix::Get_Column_Count() {
+    return column_count;
+}
+int* Matrix::Get_Figures_In_Row() {
+    return figures_in_row;
+}
+Listp* Matrix::Get_Figure_Matrix() {
+    return figure_matrix;
+}
+void Matrix::Set_Row_Count(int row_count) {
+    this->row_count = row_count;
+}
+void Matrix::Set_Column_Count(int column_count) {
+    this->column_count = column_count;
+}
+void Matrix::Set_Figures_In_Row(int* figures_in_row) {
+    this->figures_in_row = figures_in_row;
+}
+void Matrix::Set_Figure_Matrix(Listp* figure_matrix) {
+    this->figure_matrix = figure_matrix;
+}
+void Matrix::InitializeFigureMatrix(int i, Figure& figure, int j, Listp& current_node)
+{
+    figure_matrix[i] = new Node;
+    figure_matrix[i]->square = figure.Square();
+    figure_matrix[i]->perimetr = figure.Perimetr();
+    figure_matrix[i]->convex = figure.Isconvex();
+    figure_matrix[i]->column_index = j;
+    figure_matrix[i]->next = current_node;
+    current_node = figure_matrix[i];
+    figures_in_row[i]++;//Масив що містить к-сть елементів в кожному рядку
 }
 void Matrix::Show_Matrix_Square() {
     std::cout << "Matrix of Squares" << std::endl;
@@ -184,22 +207,24 @@ int Matrix::Value_By_Condition() {//Шукаємо першу не опуклу фігуру
     std::cout << std::endl;
 }
 
-void Matrix::InitializeMatrix(int row_count, int col_count) {
-    this->row_count = row_count;
-    this->col_count = col_count;
+void Matrix::InitializeMatrix(int row_count, int column_count) {
+    Set_Row_Count(row_count);
+    Set_Column_Count(column_count);
     figure_matrix = new Listp[row_count];
     figures_in_row = new int[row_count];
 }
 
 Matrix::~Matrix() {
-    delete[] figures_in_row;
     for (int i = 0; i < row_count; i++) {
         Listp current = figure_matrix[i];
-        while (current != nullptr) {
-            Listp next = current->next;
-            delete current;
-            current = next;
+        for (int j = 0; j < figures_in_row[i]; j++) {
+            Listp temp = current;
+            if (current->next != nullptr) {
+                current = current->next;
+            }
+            delete temp;
         }
     }
+    delete[] figures_in_row;
     delete[] figure_matrix;
 }
