@@ -1,15 +1,12 @@
 #include "Spare Matrix_Figure.h"
 
 Matrix::Matrix(int row_count, int col_count) {
-    this->row_count = row_count;
-    this->col_count = col_count;
-    int point_count;
+    InitializeMatrix(row_count, col_count);
     Listp current_node = NULL;
-    figure_matrix = new Listp[row_count];
-    figures_in_row = new int[row_count];
     for (int i = 0; i < row_count; i++) {
         figures_in_row[i] = 0;
         for (int j = 0; j < col_count; j++) {
+            int point_count;
             std::cout << "Input count of point of figure" << std::endl;
             std::cin >> point_count;
             if (point_count >= 3) {
@@ -36,14 +33,10 @@ Matrix::Matrix(int row_count, int col_count) {
 }
 
 Matrix::Matrix(int row_count, int col_count, std::vector<Figure> figures, std::vector<int> point_x, std::vector<int> point_y) {
-    this->row_count = row_count;
-    this->col_count = col_count;
-    int point_count;
+    InitializeMatrix(row_count, col_count);
+    Listp current_node = NULL;
     int k = 0;
-    Listp current_node = NULL, o = NULL, r = NULL;
-    figure_matrix = new Listp[row_count];
-    figures_in_row = new int[row_count];
-    int y = 0; int w = 0;
+    int target_x = 0; int target_y = 0;
     int h = -1; int l = -1;
     for (int i = 0; i < row_count; i++) {
         figures_in_row[i] = 0;
@@ -53,7 +46,7 @@ Matrix::Matrix(int row_count, int col_count, std::vector<Figure> figures, std::v
             for (int r = 0; r < point_x.size(); r++) {
                 if (row_index == point_x[r]) {
                     if (r != h) {
-                        y = r;
+                        target_x = r;
                         break;
                     }
                 }
@@ -63,13 +56,13 @@ Matrix::Matrix(int row_count, int col_count, std::vector<Figure> figures, std::v
             for (int q = 0; q < point_y.size(); q++) {
                 if (column_index == point_y[q]) {
                     if (q != l) {
-                        w = q;
+                        target_y = q;
                         break;
                     }
                 }
 
             }
-            if (y == w) {
+            if (target_x == target_y) {
                 figure_matrix[i] = new Node;
                 figure_matrix[i]->square = figures[k].Square();
                 figure_matrix[i]->perimetr = figures[k].Perimetr();
@@ -189,4 +182,24 @@ int Matrix::Value_By_Condition() {//ЎукаЇмо першу не опуклу ф≥гуру
         return 0;
     }
     std::cout << std::endl;
+}
+
+void Matrix::InitializeMatrix(int row_count, int col_count) {
+    this->row_count = row_count;
+    this->col_count = col_count;
+    figure_matrix = new Listp[row_count];
+    figures_in_row = new int[row_count];
+}
+
+Matrix::~Matrix() {
+    delete[] figures_in_row;
+    for (int i = 0; i < row_count; i++) {
+        Listp current = figure_matrix[i];
+        while (current != nullptr) {
+            Listp next = current->next;
+            delete current;
+            current = next;
+        }
+    }
+    delete[] figure_matrix;
 }

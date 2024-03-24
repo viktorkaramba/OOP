@@ -26,5 +26,7 @@ struct Matrix {
     std::vector<double> Index_Search(int row_index, int column_index);
     std::vector<double> Value_Search(int value);
     int Value_By_Condition();
+    void InitializeMatrix(int row_count, int col_count);
+    ~Matrix();
 };
 
