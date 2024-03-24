@@ -3,14 +3,15 @@
 #include <vector>
 #include <iomanip>
 #include <cmath>
+
 class Figure {
 private:
-    std::vector<int>Ox;//Вектор для збереження координатів x
-    std::vector<int>Oy;//Вектор для збереження координатів y
-    int n;
+    std::vector<int>point_x;//Вектор для збереження координатів x
+    std::vector<int>point_y;//Вектор для збереження координатів y
+    int count_of_points;
 public:
-    Figure(int nn);//Конструктор задання фігури
-    Figure(int nn, std::vector<int>OX, std::vector<int>OY);
+    Figure(int count_of_points;//Конструктор задання фігури
+    Figure(int count_of_points, std::vector<int>point_x, std::vector<int>point_y);
     void Out();//Метод виводу фігури
     int Perimetr();//Метод виводу периметра
     double Square();//Метод виводу площу

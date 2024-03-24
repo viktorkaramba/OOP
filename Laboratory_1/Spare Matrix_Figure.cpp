@@ -1,60 +1,58 @@
 #include "Spare Matrix_Figure.h"
 
-Matrix::Matrix(int nt, int t) {
-    nn = nt;
-    mm = t;
-    int n;
-    Listp p = NULL, o = NULL, r = NULL;
-    m = new Listp[nn];
-    s = new int[nn];
-    for (int i = 0; i < nn; i++) {
-        s[i] = 0;
-        for (int j = 0; j < mm; j++) {
+Matrix::Matrix(int row_count, int col_count) {
+    this->row_count = row_count;
+    this->col_count = col_count;
+    int point_count;
+    Listp current_node = NULL;
+    figure_matrix = new Listp[row_count];
+    figures_in_row = new int[row_count];
+    for (int i = 0; i < row_count; i++) {
+        figures_in_row[i] = 0;
+        for (int j = 0; j < col_count; j++) {
             std::cout << "Input count of point of figure" << std::endl;
-            std::cin >> n;
-            if (n >= 3) {
-                m[i] = new Node;//Якщо к-сть сторін в фігурі менше 3 то ми не зберігаєм її в матриці інакше а поле даних заносим значення
-                int a;
-                int b;
-                std::vector<int>X;
-                std::vector<int>Y;
-                for (int i = 0; i < n; i++) {
-                    std::cout << "Input coordinate (x ; y)" << std::endl;
-                    std::cin >> a;
-                    X.push_back(a);
-                    std::cin >> b;
-                    Y.push_back(b);
+            std::cin >> point_count;
+            if (point_count >= 3) {
+                figure_matrix[i] = new Node;//Якщо к-сть сторін в фігурі менше 3 то ми не зберігаєм її в матриці інакше а поле даних заносим значення
+                int x, y;
+                std::vector<int> point_x, point_y;
+                for (int k = 0; k < point_count; k++) {
+                    std::cout << "Input coordinate (x; y)" << std::endl;
+                    std::cin >> x >> y;
+                    point_x.push_back(x);
+                    point_y.push_back(y);
                 }
-                Figure A(n, X, Y);
-                m[i]->square = A.Square();
-                m[i]->perimetr = A.Perimetr();
-                m[i]->convex = A.Isconvex();
-                m[i]->nj = j;
-                m[i]->next = p;
-                p = m[i];
-                s[i] = s[i] + 1;//Масив що містить к-сть елементів в кожному рядку
+                Figure figure(point_count, point_x, point_y);
+                figure_matrix[i]->square = figure.Square();
+                figure_matrix[i]->perimetr = figure.Perimetr();
+                figure_matrix[i]->convex = figure.Isconvex();
+                figure_matrix[i]->column_index = j;
+                figure_matrix[i]->next = current_node;
+                current_node = figure_matrix[i];
+                figures_in_row[i]++;  //Масив що містить к-сть елементів в кожному рядку
             }
         }
     }
     std::cout << std::endl;
 }
-Matrix::Matrix(int nt, int t, std::vector<Figure> F1, std::vector<int> R, std::vector<int> S) {
-    nn = nt;
-    mm = t;
-    int n;
+
+Matrix::Matrix(int row_count, int col_count, std::vector<Figure> figures, std::vector<int> point_x, std::vector<int> point_y) {
+    this->row_count = row_count;
+    this->col_count = col_count;
+    int point_count;
     int k = 0;
-    Listp p = NULL, o = NULL, r = NULL;
-    m = new Listp[nn];
-    s = new int[nn];
+    Listp current_node = NULL, o = NULL, r = NULL;
+    figure_matrix = new Listp[row_count];
+    figures_in_row = new int[row_count];
     int y = 0; int w = 0;
     int h = -1; int l = -1;
-    for (int i = 0; i < nn; i++) {
-        s[i] = 0;
-        int rad = i;
-        for (int j = 0; j < mm; j++) {
-            int st = j;
-            for (int r = 0; r < R.size(); r++) {
-                if (rad == R[r]) {
+    for (int i = 0; i < row_count; i++) {
+        figures_in_row[i] = 0;
+        int row_index = i;
+        for (int j = 0; j < col_count; j++) {
+            int column_index = j;
+            for (int r = 0; r < point_x.size(); r++) {
+                if (row_index == point_x[r]) {
                     if (r != h) {
                         y = r;
                         break;
@@ -63,8 +61,8 @@ Matrix::Matrix(int nt, int t, std::vector<Figure> F1, std::vector<int> R, std::v
 
 
             }
-            for (int q = 0; q < S.size(); q++) {
-                if (st == S[q]) {
+            for (int q = 0; q < point_y.size(); q++) {
+                if (column_index == point_y[q]) {
                     if (q != l) {
                         w = q;
                         break;
@@ -72,18 +70,15 @@ Matrix::Matrix(int nt, int t, std::vector<Figure> F1, std::vector<int> R, std::v
                 }
 
             }
-
-
-
             if (y == w) {
-                m[i] = new Node;
-                m[i]->square = F1[k].Square();
-                m[i]->perimetr = F1[k].Perimetr();
-                m[i]->convex = F1[k].Isconvex();
-                m[i]->nj = j;
-                m[i]->next = p;
-                p = m[i];
-                s[i] = s[i] + 1;//Масив що містить к-сть елементів в кожному рядку
+                figure_matrix[i] = new Node;
+                figure_matrix[i]->square = figures[k].Square();
+                figure_matrix[i]->perimetr = figures[k].Perimetr();
+                figure_matrix[i]->convex = figures[k].Isconvex();
+                figure_matrix[i]->column_index = j;
+                figure_matrix[i]->next = current_node;
+                current_node = figure_matrix[i];
+                figures_in_row[i]++;//Масив що містить к-сть елементів в кожному рядку
                 k++;
                 h++;
                 l++;
@@ -94,13 +89,12 @@ Matrix::Matrix(int nt, int t, std::vector<Figure> F1, std::vector<int> R, std::v
 }
 void Matrix::Show_Matrix_Square() {
     std::cout << "Matrix of Squares" << std::endl;
-    Listp p = NULL;
-    int n = 0;
-    for (int i = 0; i < nn; i++) {
-        p = m[i];
-        for (int j = 0; j < s[i]; j++) {
-            std::cout << p->square << " ";
-            p = p->next;
+    Listp current_node = NULL;
+    for (int i = 0; i < row_count; i++) {
+        current_node = figure_matrix[i];
+        for (int j = 0; j < figures_in_row[i]; j++) {
+            std::cout << current_node->square << " ";
+            current_node = current_node->next;
         }
         std::cout << std::endl;
     }
@@ -108,13 +102,12 @@ void Matrix::Show_Matrix_Square() {
 }
 void Matrix::Show_Matrix_Perimetr() {
     std::cout << "Matrix of Perimeters" << std::endl;
-    Listp p = NULL;
-    int n = 0;
-    for (int i = 0; i < nn; i++) {
-        p = m[i];
-        for (int j = 0; j < s[i]; j++) {
-            std::cout << p->perimetr << " ";
-            p = p->next;
+    Listp current_node = NULL;
+    for (int i = 0; i < row_count; i++) {
+        current_node = figure_matrix[i];
+        for (int j = 0; j < figures_in_row[i]; j++) {
+            std::cout << current_node->perimetr << " ";
+            current_node = currentNode->next;
         }
         std::cout << std::endl;
     }
@@ -122,32 +115,32 @@ void Matrix::Show_Matrix_Perimetr() {
 }
 void Matrix::Show_Matrix_Convex() {
     std::cout << "Matrix of Convex" << std::endl;
-    Listp p = NULL;
-    int n = 0;
-    for (int i = 0; i < nn; i++) {
-        p = m[i];
-        for (int j = 0; j < s[i]; j++) {
-            std::cout << p->convex << " ";
-            p = p->next;
+    Listp current_node = NULL;
+    for (int i = 0; i < row_count; i++) {
+        current_node = figure_matrix[i];
+        for (int j = 0; j < figures_in_row[i]; j++) {
+            std::cout << current_node->convex << " ";
+            current_node = current_node->next;
         }
         std::cout << std::endl;
     }
     std::cout << std::endl;
 }
-std::vector<double> Matrix::Index_Search(int rd, int st) {// Йдемо по не нульовим елементам і шукаємо значеня за заданим індексом
-    Listp p = NULL;
+
+std::vector<double> Matrix::Index_Search(int row, int column) {// Йдемо по не нульовим елементам і шукаємо значеня за заданим індексом
+    Listp current_node = NULL;
     std::vector<double> value;
-    for (int i = 0; i < nn; i++) {
-        p = m[i];
-        for (int j = 0; j < s[i]; j++) {
-            if (i == rd && p->nj == st) {
-                value.push_back(p->square);
-                value.push_back(p->perimetr);
-                value.push_back(p->convex);
+    for (int i = 0; i < row_count; i++) {
+        current_node = figure_matrix[i];
+        for (int j = 0; j < figures_in_row[i]; j++) {
+            if (i == row && current_node->column_index == column) {
+                value.push_back(current_node->square);
+                value.push_back(current_node->perimetr);
+                value.push_back(current_node->convex);
                 return value;
             }
             else {
-                p = p->next;
+                current_node = current_node->next;
             }
         }
     }
@@ -158,18 +151,18 @@ std::vector<double> Matrix::Index_Search(int rd, int st) {// Йдемо по не нульови
 }
 
 std::vector<double> Matrix::Value_Search(int value) {// Йдемо по не нульовим елементам і шукаємо іднекс за заданим значенням
-    Listp p = NULL;
+    Listp current_node = NULL;
     std::vector<double> Index;
-    for (int i = 0; i < nn; i++) {
-        p = m[i];
-        for (int j = 0; j < s[i]; j++) {
-            if (p->square == value) {
+    for (int i = 0; i < row_count; i++) {
+        current_node = figure_matrix[i];
+        for (int j = 0; j < figures_in_row[i]; j++) {
+            if (current_node->square == value) {
                 Index.push_back(i);
-                Index.push_back(p->nj);
+                Index.push_back(current_node->column_index);
                 return Index;
             }
             else {
-                p = p->next;
+                current_node = current_node->next;
             }
         }
     }
@@ -179,17 +172,17 @@ std::vector<double> Matrix::Value_Search(int value) {// Йдемо по не нульовим еле
     std::cout << std::endl;
 }
 int Matrix::Value_By_Condition() {//Шукаємо першу не опуклу фігуру 
-    Listp p = NULL;
+    Listp current_node = NULL;
     int value = 0;
-    for (int i = 0; i < nn; i++) {
-        p = m[i];
-        for (int j = 0; j < s[i]; j++) {
-            if (p->convex == -1) {
-                value = p->square;
+    for (int i = 0; i < row_count; i++) {
+        current_node = figure_matrix[i];
+        for (int j = 0; j < figures_in_row[i]; j++) {
+            if (current_node->convex == -1) {
+                value = current_node->square;
                 return value;
             }
             else {
-                p = p->next;
+                current_node = current_node->next;
             }
         }
     }
