@@ -114,3 +114,54 @@ TEST_CASE("Test 6(new) Check SumMatrix ") {
 	M3.SumMatrix(M1, M2);
 	CHECK(M3.Get_Figure_Matrix()[0]->square == 14);
 }
+TEST_CASE("Test 8(new) Check MultiplyVector") {
+	std::vector<Point>pointsA;
+	pointsA.push_back(*new Point(0, 0));
+	pointsA.push_back(*new Point(0, 2));
+	pointsA.push_back(*new Point(5, 0));
+	std::vector<Point>pointsB;
+	pointsB.push_back(*new Point(1, 1));
+	pointsB.push_back(*new Point(2, 3));
+	pointsB.push_back(*new Point(4, 1));
+	pointsB.push_back(*new Point(5, 3));
+	std::vector<Point>pointsC;
+	pointsC.push_back(*new Point(1, 2));
+	pointsC.push_back(*new Point(-3, -2));
+	pointsC.push_back(*new Point(3, 4));
+	pointsC.push_back(*new Point(-2, 0));
+	pointsC.push_back(*new Point(-1, 3));
+	Figure A(3, pointsA, new BaseAreaCalculationStrategy());
+	Figure B(4, pointsB, new BaseAreaCalculationStrategy());
+	Figure C(5, pointsC, new BaseAreaCalculationStrategy());
+	Matrix M1(2, 3, { A,C,B }, { 0,1,1 }, { 0, 1, 2 });
+	Matrix M3;
+	M3.MultiplyVector(M1, { 1,2,3 });
+	CHECK(M3.Get_Figure_Matrix()[0]->square == 5);
+	CHECK(M3.Get_Figure_Matrix()[1]->square == 0);
+}
+TEST_CASE("Test 9(new) Check MultiplyVector") {
+	std::vector<Point>pointsA;
+	pointsA.push_back(*new Point(1, 1));
+	pointsA.push_back(*new Point(3, 5));
+	pointsA.push_back(*new Point(5, 2));
+	std::vector<Point>pointsB;
+	pointsB.push_back(*new Point(1, 1));
+	pointsB.push_back(*new Point(2, 3));
+	pointsB.push_back(*new Point(4, 1));
+	pointsB.push_back(*new Point(5, 3));
+	std::vector<Point>pointsC;
+	pointsC.push_back(*new Point(1, 2));
+	pointsC.push_back(*new Point(-3, -2));
+	pointsC.push_back(*new Point(3, 4));
+	pointsC.push_back(*new Point(-2, 0));
+	pointsC.push_back(*new Point(-1, 3));
+	Figure A(3, pointsA, new BaseAreaCalculationStrategy());
+	Figure B(4, pointsB, new BaseAreaCalculationStrategy());
+	Figure C(5, pointsC, new BaseAreaCalculationStrategy());
+	Matrix M1(2, 3, { A,C,B }, { 1,1,1 }, { 0, 1, 2 });
+	Matrix M3;
+	std::vector<double> a = { 12,25 };
+	M3.MultiplyVector(M1, { 3, 2, 1 });
+	CHECK(M3.Get_Figure_Matrix()[0]->square == 21);
+	CHECK((int)M3.Get_Figure_Matrix()[1]->square == 5);
+}

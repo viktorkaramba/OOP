@@ -87,7 +87,7 @@ Matrix::Matrix(int row_count, int column_count, std::vector<Figure> figures, std
     std::cout << std::endl;
 }
 Matrix::~Matrix() {
-  /*  for (int i = 0; i < row_count; i++) {
+    for (int i = 0; i < row_count; i++) {
         Listp current = figure_matrix[i];
         for (int j = 0; j < figures_in_row[i]; j++) {
             Listp temp = current;
@@ -98,7 +98,7 @@ Matrix::~Matrix() {
         }
     }
     delete[] figures_in_row;
-    delete[] figure_matrix;*/
+    delete[] figure_matrix;
 }
 int Matrix::Get_Row_Count() {
     return row_count;
@@ -314,6 +314,121 @@ void Matrix::SumMatrix(Matrix matrix_1, Matrix matrix_2)
             }
         }
     }
+}
+void Matrix::MultiplyVector(Matrix matrix_1, std::vector<int> vector)
+{
+    InitializeMatrix(matrix_1.Get_Row_Count(), matrix_1.Get_Column_Count());
+    Listp additional__node_1 = NULL, additional__node_2 = NULL, additional__node_3 = NULL, additional__node_4 = NULL;
+    Listp additional__node_5 = NULL; Listp additional__node_6 = NULL; Listp additional__node_7 = NULL; Listp additional__node_8 = NULL;
+    int N = 0;
+    for (int i = 0; i < row_count; i++)
+    {
+        figures_in_row[i] = 0;
+        additional__node_2 = NULL;
+        figure_matrix[i] = new Node;
+        figure_matrix[i]->next = additional__node_2;
+        additional__node_2 = figure_matrix[i];
+        figures_in_row[i]++;
+        additional__node_1 = NULL; additional__node_3 = NULL; additional__node_5 = NULL; additional__node_6 = NULL; additional__node_7 = NULL;
+        if (matrix_1.Get_Figures_In_Row()[i] == 0) {
+            int t = 0;
+            for (int h = 0; h < vector.size(); h++) {
+                if (t == 0) {
+                    InitializeVectorMatrix(i, vector, h);
+                    t++;
+                    continue;
+                }
+                else {
+                    InitializeVectorMatrix(i, vector, h);
+                    continue;
+                }
+            }
+
+        }
+        else {
+            additional__node_1 = matrix_1.Get_Figure_Matrix()[i];
+            while (additional__node_1) {
+                additional__node_3 = additional__node_1->next;
+                additional__node_1->next = additional__node_7;
+                additional__node_7 = additional__node_1;
+                additional__node_1 = additional__node_3;
+            }
+            additional__node_5 = additional__node_7;
+            matrix_1.Get_Figure_Matrix()[i] = additional__node_7;
+            N = 0;
+            while (additional__node_5) {
+                for (int f = 0; f < vector.size(); f++) {
+                    if (additional__node_5 == NULL) {
+                        break;
+                    }
+                    else {
+                        if (additional__node_5->column_index == f) {
+                            if (N == 0) {
+                                InitializeNodeVectorMatrix(i, additional__node_5, vector, f);
+                                N++;
+                                continue;
+                            }
+                            else {
+                                InitializeNodeVectorMatrix(i, additional__node_5, vector, f);
+                                continue;
+                            }
+                        }
+                        else if (additional__node_5->column_index > f) {
+                            if (N == 0) {
+                                figure_matrix[i]->column_index = f;
+                                figure_matrix[i]->perimetr = vector[f];
+                                figure_matrix[i]->square = vector[f];
+                                N++;
+                                continue;
+
+                            }
+                            else {
+                                figure_matrix[i]->column_index = f;
+                                figure_matrix[i]->perimetr += vector[f];
+                                figure_matrix[i]->square += vector[f];
+                                continue;
+                            }
+                        }
+                        else {
+                            if (N == 0) {
+                                InitializeNodeMatrix(i, additional__node_5);
+                                N++;
+                                continue;
+
+                            }
+                            else {
+                                InitializeNodeMatrix(i, additional__node_5);
+                                continue;
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+}
+void Matrix::InitializeNodeVectorMatrix(int i, Listp& additional__node_5, std::vector<int>& vector, int f)
+{
+    figure_matrix[i]->column_index = additional__node_5->column_index;
+    figure_matrix[i]->perimetr = additional__node_5->perimetr * vector[f];
+    figure_matrix[i]->square = additional__node_5->square * vector[f];
+    figure_matrix[i]->convex = additional__node_5->convex;
+    additional__node_5 = additional__node_5->next;
+}
+void Matrix::InitializeNodeMatrix(int i, const Listp& additional__node_5)
+{
+    figure_matrix[i]->column_index = additional__node_5->column_index;
+    figure_matrix[i]->perimetr = additional__node_5->perimetr;
+    figure_matrix[i]->square = additional__node_5->square;
+    figure_matrix[i]->convex = additional__node_5->convex;
+}
+void Matrix::InitializeVectorMatrix(int i, std::vector<int>& vector, int h)
+{
+    figure_matrix[i]->column_index = 1;
+    figure_matrix[i]->perimetr = vector[h];
+    figure_matrix[i]->square = vector[h];
+    figure_matrix[i]->convex = vector[h];
 }
 void Matrix::InitializeMatrix(int row_count, int column_count) {
     Set_Row_Count(row_count);

@@ -38,9 +38,13 @@ public:
     std::vector<double> Value_Search(int value);
     int Value_By_Condition();
     void SumMatrix(Matrix matrix_1, Matrix matrix_2);
+    void MultiplyVector(Matrix matrix_1, std::vector<int> vector);
+    void InitializeNodeVectorMatrix(int i, Listp& additional__node_5, std::vector<int>& vector, int f);
+    void InitializeNodeMatrix(int i, const Listp& additional__node_5);
 private:
     void InitializeMatrix(int row_count, int col_count);
     void InitializeFigureMatrix(int i, Figure& figure, int j, Listp& current_node);
     void InitializeListpMatrix(int i, Listp& figure, Listp& current_node);
+    void InitializeVectorMatrix(int i, std::vector<int>& vector, int h);
 };
 
