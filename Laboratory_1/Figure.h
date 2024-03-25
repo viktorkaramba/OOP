@@ -4,14 +4,16 @@
 #include <iomanip>
 #include <cmath>
 #include "Point.h"
+#include "AreaStrategy.h"
 
 class Figure {
 private:
     std::vector<Point>points;//Вектор для збереження координатів
     int count_of_points;
+    AreaCalculationStrategy* areaStrategy;
 public:
-    Figure(int count_of_points);//Конструктор задання фігури
-    Figure(int count_of_points, std::vector<Point>points);
+    Figure(int count_of_points, AreaCalculationStrategy* areaStrategy);//Конструктор задання фігури
+    Figure(int count_of_points, std::vector<Point>points,AreaCalculationStrategy* areaStrategy);
     void Out();//Метод виводу фігури
     int Perimetr();//Метод виводу периметра
     double Square();//Метод виводу площу

@@ -19,6 +19,7 @@ private:
     int* figures_in_row;
     Listp* figure_matrix;
 public:
+    Matrix();
     Matrix(int row_count, int column_count);
     Matrix(int row_count, int column_count, std::vector<Figure> figures, std::vector<int> point_x, std::vector<int> point_y);
     ~Matrix();
@@ -36,8 +37,10 @@ public:
     std::vector<double> Index_Search(int row_index, int column_index);
     std::vector<double> Value_Search(int value);
     int Value_By_Condition();
+    void SumMatrix(Matrix matrix_1, Matrix matrix_2);
 private:
     void InitializeMatrix(int row_count, int col_count);
     void InitializeFigureMatrix(int i, Figure& figure, int j, Listp& current_node);
+    void InitializeListpMatrix(int i, Listp& figure, Listp& current_node);
 };
 

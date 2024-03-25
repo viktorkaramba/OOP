@@ -1,7 +1,8 @@
 #include "Figure.h"
 
-Figure::Figure(int count_of_points) {
+Figure::Figure(int count_of_points, AreaCalculationStrategy* areaStrategy) {
     this->count_of_points = count_of_points;
+    this->areaStrategy = areaStrategy;
     int x, y;
     for (int i = 0; i < count_of_points; i++) {
         std::cout << "Input coordinate (x ; y)" << std::endl;
@@ -12,9 +13,10 @@ Figure::Figure(int count_of_points) {
     }
 }
 
-Figure::Figure(int count_of_points, std::vector<Point>points) {
+Figure::Figure(int count_of_points, std::vector<Point>points, AreaCalculationStrategy* areaStrategy) {
     this->count_of_points = count_of_points;
     this->points = points;
+    this->areaStrategy = areaStrategy;
 }
 
 void Figure::Out() {
@@ -35,19 +37,7 @@ int Figure::Perimetr() {
 }
 
 double Figure::Square() {
-    double square = 0;
-    double x_0 = points[0].Get_X();
-    double y_0 = points[0].Get_Y();
-    double additional_x = 0, additional_y = 0;
-    for (int i = 1; i < count_of_points; i++) {
-        additional_x = points[i].Get_X();
-        additional_y = points[i].Get_Y();
-        square = square + (x_0 + additional_x) * (additional_y - y_0);
-        x_0 = additional_x;
-        y_0 = additional_y;
-    }
-    square = square + (points[0].Get_X() + additional_x) * (points[0].Get_Y() - additional_y);
-    return abs(square) / 2;
+    return areaStrategy->CalculateArea(points);
 }
 
 int Figure::Isconvex() {

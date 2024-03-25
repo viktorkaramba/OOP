@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AreaStrategy.h" />
     <ClCompile Include="Figure.cpp" />
     <ClCompile Include="Laboratory_1(Refactoring).cpp" />
     <ClCompile Include="Main.cpp" />
